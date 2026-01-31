@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Culinary Adventure Quest</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main>
+    <h1>Culinary Adventure Quest</h1>
+    <p class="subtitle">Cooking wellness challenges – earn points and level up through chef ranks.</p>
+
+    <section id="guest-section">
+      <div class="welcome-box">
+        <p>Sign in or create an account to start your wellness journey.</p>
+        <a href="login.html" class="btn-secondary">Log in</a>
+        <a href="register.html" class="btn-secondary">Register</a>
+      </div>
+    </section>
+
+    <section id="logged-section" class="hidden">
+      <div class="welcome-box">
+        <p>You are logged in. Ready for your next challenge?</p>
+        <button type="button" id="logout-btn">Log out</button>
+      </div>
+    </section>
+  </main>
+  <script src="js/app.js"></script>
+  <script>
+    initIndex();
+    initLogout();
+  </script>
+</body>
+</html>

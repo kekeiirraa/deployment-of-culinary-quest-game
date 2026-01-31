@@ -1,0 +1,158 @@
+/* culinary adventure quest - ca2 frontend styles */
+/* simple, clean layout for cooking wellness challenges */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5e6d3 0%, #e8d5c4 50%, #d4b896 100%);
+  color: #3d2914;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+main {
+  max-width: 420px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(61, 41, 20, 0.15);
+  padding: 2rem;
+}
+
+h1 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.5rem;
+  color: #5c3d1e;
+  text-align: center;
+}
+
+.subtitle {
+  text-align: center;
+  color: #7d5c3a;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #5c3d1e;
+  margin-bottom: 0.35rem;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #c4a574;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #fff;
+  color: #3d2914;
+}
+
+input:focus {
+  outline: none;
+  border-color: #8b6914;
+  box-shadow: 0 0 0 2px rgba(139, 105, 20, 0.2);
+}
+
+button {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background: #8b6914;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+button:hover {
+  background: #6d5210;
+}
+
+button:disabled {
+  background: #a09070;
+  cursor: not-allowed;
+}
+
+.links {
+  text-align: center;
+  margin-top: 1.25rem;
+  font-size: 0.9rem;
+}
+
+.links a {
+  color: #8b6914;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
+
+.message {
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.message.error {
+  background: #fde8e8;
+  color: #a52a2a;
+  border: 1px solid #f5c6c6;
+}
+
+.message.success {
+  background: #e8f5e9;
+  color: #2e7d32;
+  border: 1px solid #c8e6c9;
+}
+
+.welcome-box {
+  text-align: center;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.welcome-box p {
+  margin: 0.5rem 0;
+}
+
+.btn-secondary {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background: #7d5c3a;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.btn-secondary:hover {
+  background: #5c3d1e;
+}
+
+.hidden {
+  display: none;
+}
