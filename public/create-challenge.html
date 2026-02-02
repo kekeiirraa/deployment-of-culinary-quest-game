@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Challenge - Culinary Adventure Quest</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <header class="top-nav">
+    <a href="index.html" class="logo">Culinary Quest</a>
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="challenges.html">All Challenges</a>
+      <a href="progress.html">My Progress</a>
+      <a href="create-challenge.html" class="active">Create Challenge</a>
+      <a href="badges.html">Badges</a>
+      <button id="logout-btn" class="btn-link">Log out</button>
+    </nav>
+  </header>
+
+  <main class="create-challenge-main">
+    <h1>Create a New Wellness Challenge</h1>
+    <p class="subtitle">Design a cooking-themed wellness challenge for the community</p>
+
+    <div id="message" class="message hidden" role="alert"></div>
+
+    <form id="create-challenge-form" class="card" novalidate>
+      <div class="form-group">
+        <label for="description">Challenge Description *</label>
+        <textarea id="description" name="description" rows="4" required
+          placeholder="e.g., Hydrate like a chef – Drink 8 glasses of water to stay sharp in the kitchen"></textarea>
+        <span id="description-error" class="field-error hidden"></span>
+        <p class="field-hint">Make it cooking-themed! Include terms like chef, kitchen, cook, culinary, market, etc.</p>
+      </div>
+
+      <div class="form-group">
+        <label for="points">Points Reward *</label>
+        <input type="number" id="points" name="points" required min="1" max="100" placeholder="10">
+        <span id="points-error" class="field-error hidden"></span>
+        <p class="field-hint">Suggested: 10-30 for easy, 30-60 for medium, 60-100 for hard challenges</p>
+      </div>
+
+      <button type="submit">Create Challenge</button>
+    </form>
+
+    <section class="card tips">
+      <h3>Challenge Creation Tips</h3>
+      <ul>
+        <li><strong>Be specific:</strong> Clearly describe what needs to be done</li>
+        <li><strong>Stay on theme:</strong> Use cooking and culinary references</li>
+        <li><strong>Keep it achievable:</strong> Make sure it's realistic for most people</li>
+        <li><strong>Examples:</strong>
+          <ul>
+            <li>Beginner: "Kitchen Prep Master – Organize your kitchen for 15 minutes" (10-30 pts)</li>
+            <li>Intermediate: "Chef's Workout – Exercise for 30 minutes before cooking" (30-60 pts)</li>
+            <li>Advanced: "Culinary Wellness Week – 7 days of healthy habits" (60-100 pts)</li>
+          </ul>
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <script src="js/app.js"></script>
+  <script>
+    initCreateChallenge();
+  </script>
+</body>
+
+</html>

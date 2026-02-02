@@ -9,7 +9,7 @@ const pool = mysql.createPool({
     host: 'localhost',
     user: 'root',
     password: 'QWEasd123',
-    database: 'wellness_game',
+    database: 'food',
     connectionLimit: 10,        
     waitForConnections: true,    
     queueLimit: 0                // unlimited queue for connection requests
@@ -22,7 +22,7 @@ pool.getConnection((err, connection) => {
         console.error('Database connection failed: ', err);
         return;
     }
-    console.log('Connected to wellness_game database');
+    console.log('Connected to food database');
     // release connection back to pool after testing
     connection.release();
 });

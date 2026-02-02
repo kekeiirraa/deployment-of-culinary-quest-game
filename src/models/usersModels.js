@@ -2,26 +2,35 @@ const pool = require('../services/db');
 
 // creates a new user in the database with default values
 // sets points to 0 and current_rank_id to 1 (Kitchen Novice)
-// takes user data object with username, optional password_hash, and callback
+// takes user data object with username, email, password_hash, and callback
 module.exports.createUser = (data, callback) => {
     const SQLSTATEMENT = `
-    INSERT INTO User (username, password_hash, points, current_rank_id)
-    VALUES (?, ?, 0, 1);
+    INSERT INTO User (username, email, password_hash, points, current_rank_id)
+    VALUES (?, ?, ?, 0, 1);
     `;
-    const VALUES = [data.username, data.password_hash || null];
-    
+    const VALUES = [data.username, data.email, data.password_hash || null];
+
     pool.query(SQLSTATEMENT, VALUES, callback);
 };
 
-// retrieves user by username for login (returns password_hash for bcrypt compare)
-// takes username and callback
-module.exports.selectUserByUsernameForAuth = (username, callback) => {
+// retrieves user by username or email for login (returns password_hash for bcrypt compare)
+// allows login with either username or email
+module.exports.selectUserByUsernameOrEmailForAuth = (identifier, callback) => {
     const SQLSTATEMENT = `
-    SELECT user_id, username, password_hash
+    SELECT user_id, username, email, password_hash
     FROM User
-    WHERE username = ?;
+    WHERE username = ? OR email = ?;
     `;
-    pool.query(SQLSTATEMENT, [username], callback);
+    pool.query(SQLSTATEMENT, [identifier, identifier], callback);
+};
+
+// checks if email already exists in database
+// used for validation before creating users
+module.exports.checkEmailExists = (email, callback) => {
+    const SQLSTATEMENT = `
+    SELECT user_id FROM User WHERE email = ?;
+    `;
+    pool.query(SQLSTATEMENT, [email], callback);
 };
 
 // checks if a username already exists in the database
@@ -32,7 +41,7 @@ module.exports.checkUsernameExists = (username, callback) => {
     SELECT user_id FROM User WHERE username = ?;
     `;
     const VALUES = [username];
-    
+
     pool.query(SQLSTATEMENT, VALUES, callback);
 };
 
@@ -45,7 +54,7 @@ module.exports.selectAllUsers = (callback) => {
     FROM User
     ORDER BY user_id;
     `;
-    
+
     pool.query(SQLSTATEMENT, callback);
 };
 
@@ -58,7 +67,7 @@ module.exports.selectUserById = (data, callback) => {
     WHERE user_id = ?;
     `;
     const VALUES = [data.user_id];
-    
+
     pool.query(SQLSTATEMENT, VALUES, callback);
 };
 
@@ -71,7 +80,7 @@ module.exports.updateUser = (data, callback) => {
     WHERE user_id = ?;
     `;
     const VALUES = [data.username, data.points, data.user_id];
-    
+
     pool.query(SQLSTATEMENT, VALUES, callback);
 };
 
@@ -84,6 +93,6 @@ module.exports.updateUserRank = (data, callback) => {
     WHERE user_id = ?;
     `;
     const VALUES = [data.rank_id, data.user_id];
-    
+
     pool.query(SQLSTATEMENT, VALUES, callback);
 };

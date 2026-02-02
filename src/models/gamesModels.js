@@ -13,7 +13,7 @@ module.exports.getUserProfile = (userId, callback) => {
     GROUP BY u.user_id;
     `;
     const VALUES = [userId];
-    
+
     pool.query(SQLSTATEMENT, VALUES, callback);
 };
 
@@ -27,6 +27,52 @@ module.exports.getLeaderboard = (callback) => {
     ORDER BY points DESC 
     LIMIT 10;
     `;
-    
+
     pool.query(SQLSTATEMENT, callback);
+};
+
+// retrieves all challenges completed by a specific user
+// includes challenge details and completion info
+module.exports.getUserCompletedChallenges = (userId, callback) => {
+    const SQLSTATEMENT = `
+    SELECT wc.challenge_id, wc.description as challenge, wc.points,
+           uc.completed_at, uc.details
+    FROM UserCompletion uc
+    JOIN WellnessChallenge wc ON uc.challenge_id = wc.challenge_id
+    WHERE uc.user_id = ?
+    ORDER BY uc.completed_at DESC;
+    `;
+    pool.query(SQLSTATEMENT, [userId], callback);
+};
+
+// retrieves all badges earned by a user
+// includes badge name, description, and earned date
+module.exports.getUserBadges = (userId, callback) => {
+    const SQLSTATEMENT = `
+    SELECT b.badge_id, b.badge_name, b.description, ub.earned_date
+    FROM UserBadges ub
+    JOIN Badges b ON ub.badge_id = b.badge_id
+    WHERE ub.user_id = ?
+    ORDER BY ub.earned_date DESC;
+    `;
+    pool.query(SQLSTATEMENT, [userId], callback);
+};
+
+// retrieves all available badges
+module.exports.getAllBadges = (callback) => {
+    const SQLSTATEMENT = `
+    SELECT badge_id, badge_name, description
+    FROM Badges
+    ORDER BY badge_id;
+    `;
+    pool.query(SQLSTATEMENT, callback);
+};
+
+// awards a badge to a user
+module.exports.awardBadge = (data, callback) => {
+    const SQLSTATEMENT = `
+    INSERT IGNORE INTO UserBadges (user_id, badge_id)
+    VALUES (?, ?);
+    `;
+    pool.query(SQLSTATEMENT, [data.user_id, data.badge_id], callback);
 };

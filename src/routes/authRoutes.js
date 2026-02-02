@@ -14,8 +14,9 @@ router.post('/register',
   authController.register
 );
 
-// post /auth/login - authenticate and get jwt
+// post /auth/login - authenticate with username or email and get jwt
 router.post('/login',
+  authController.validateLogin,
   authController.loadUserForLogin,
   bcryptMiddleware.comparePassword,
   jwtMiddleware.generateToken,

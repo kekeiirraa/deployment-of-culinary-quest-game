@@ -8,26 +8,74 @@ Culinary Adventure Quest transforms wellness activities into cooking challenges.
 
 *** CA2 – Login & Register ***
 
-- **Frontend**: Simple login and register pages in the `public` folder (HTML, CSS, JS). Served at the root when you run the server.
+- **Frontend**: Simple, user-friendly login and register pages in the `public` folder (HTML, CSS, JS). Served at the root when you run the server.
 - **Auth**: JWT for session management; bcrypt for password hashing on the backend.
-- **Pages**: `index.html` (home), `login.html`, `register.html`. After login, the JWT is stored in `localStorage` and used for authenticated requests.
+- **Pages**: 
+  - `index.html` – Home page with login/register links
+  - `login.html` – Log in with username OR email
+  - `register.html` – Sign up with username, email, password
+  - `dashboard.html` – Protected page showing profile and leaderboard (fetch + DOM)
+  - `challenges.html` – Protected page listing all challenges to complete (fetch + DOM)
+  - `progress.html` – Track your completed challenges and points earned
+  - `create-challenge.html` – Create new wellness challenges for the community
+  - `badges.html` – View earned badges and all available badges
+
+*** Wellness Challenge Management ***
+
+**Create Challenges**:
+- Users can create cooking-themed wellness challenges
+- Set point rewards (1-100 points)
+- Challenges are validated to ensure they're cooking-themed
+
+**Track Progress**:
+- View all completed challenges with dates and points
+- See total points earned and challenges completed
+- Monitor progress toward next chef rank
+
+**Earn Points & Badges**:
+- Complete challenges to earn points
+- Points automatically added to user profile
+- Badges awarded for milestones (e.g., "First Challenge" badge for first completion)
+- View all earned badges with earned dates
+
+**Gamification Features** (from CA1):
+- **Chef Ranks**: Progress from Kitchen Novice → Apprentice Chef → Sous Chef → Master Chef → Grand Gastromancer
+- **Leaderboard**: See top 10 players by points
+- **Badges System**: Earn achievements for completing challenges
+- **Points System**: All challenges award points based on difficulty
+
+*** Validation ***
+
+**Client-side validation** (instant feedback in UI):
+- Username: 3-20 characters, alphanumeric and underscores only
+- Email: Must contain @ and valid domain format
+- Password strength indicator with real-time feedback
+- Password requirements: min 8 chars, uppercase, lowercase, number, special character
+
+**Server-side validation** (checked after submission):
+- Username format and uniqueness
+- Email format and uniqueness  
+- Password strength rules enforced
+- Appropriate error messages returned
 
 *** Setup ***
 
 1. **Dependencies**: `npm install`
 2. **Environment**: Copy `.env.example` to `.env` and set `JWT_SECRET_KEY`, `JWT_EXPIRES_IN`, `JWT_ALGORITHM` (required for auth).
-3. **Database**: MySQL with database and tables from CA1. If you already have the CA1 database, run the migration to add the password column: `node src/configs/addPasswordColumn.js`. For a fresh setup, run `node src/configs/initTables.js` (schema includes `password_hash` and unique username).
+3. **Database**: MySQL with database and tables from CA1. If you already have the CA1 database, run the migration to add the password and email columns: `node src/configs/addPasswordColumn.js`. For a fresh setup, run `node src/configs/initTables.js` (schema includes `password_hash`, `email`, and unique constraints).
 4. **Start server**: `npm run dev` or `npm start`. Server runs on port 3000.
 5. **Frontend**: Open `http://localhost:3000` in a browser. Use Register to create an account, then Log in. The API info is at `GET /api`.
 
 *** Features ***
 
-- User Management: Create and manage user accounts (register/login with password in CA2)
-- Wellness Challenges: Create cooking-themed wellness challenges
-- Challenge Completion: Track challenge completions and award points
-- Chef Ranks: Automatic rank progression based on points
-- Leaderboard: View top players by points
-- User Profiles: View detailed user statistics
+- **User Management**: Register/login with email and password (CA2)
+- **Wellness Challenges**: Create and complete cooking-themed wellness challenges
+- **Progress Tracking**: View completed challenges, total points, and rank progression
+- **Challenge Creation**: Design custom challenges for the community
+- **Badges System**: Earn badges for completing challenges and reaching milestones
+- **Chef Ranks**: Automatic rank progression based on points (Kitchen Novice → Grand Gastromancer)
+- **Leaderboard**: View top players by points
+- **User Profiles**: Detailed statistics including rank, points, and challenges completed
 
 
 *** API Documentation ***
@@ -58,15 +106,17 @@ Culinary Adventure Quest transforms wellness activities into cooking challenges.
 
 * Register
 - POST /auth/register
-  - Request Body: `{ "username": "chef_alice", "password": "yourpassword" }`
-  - Success (201): `{ "message": "Registration successful", "user_id", "username", "points", "rank" }`
-  - Errors: 400 (username/password required), 409 (username exists), 500
+  - Request Body: `{ "username": "chef_alice", "email": "alice@example.com", "password": "SecurePass1!" }`
+  - Password must have: min 8 chars, uppercase, lowercase, number, special character
+  - Success (201): `{ "message": "Registration successful", "user_id", "username", "email", "points", "rank" }`
+  - Errors: 400 (validation failed), 409 (username/email exists), 500
 
 * Login
 - POST /auth/login
-  - Request Body: `{ "username": "chef_alice", "password": "yourpassword" }`
+  - Request Body: `{ "identifier": "chef_alice", "password": "SecurePass1!" }`
+  - Note: `identifier` can be username OR email
   - Success (200): `{ "token": "<jwt>" }`
-  - Errors: 400 (username/password required), 401 (invalid credentials), 500
+  - Errors: 400 (identifier/password required), 401 (invalid credentials), 500
 
 ---
 
@@ -320,6 +370,57 @@ Culinary Adventure Quest transforms wellness activities into cooking challenges.
     }
     ```
   - Note: Returns top 10 users by points
+
+* Get User's Completed Challenges (CA2)
+- GET /games/user/:userId/challenges
+  - Success Response (200):
+    ```json
+    [
+      {
+        "challenge_id": 1,
+        "challenge": "Hydrate like a chef – Drink 8 glasses of water",
+        "points": 10,
+        "completed_at": "2024-01-15T10:30:00.000Z",
+        "details": "Completed via web app"
+      }
+    ]
+    ```
+  - Error Responses:
+    - 500: Database error
+
+* Get User's Earned Badges (CA2)
+- GET /games/user/:userId/badges
+  - Success Response (200):
+    ```json
+    [
+      {
+        "badge_id": 1,
+        "badge_name": "First Challenge",
+        "description": "Complete your first wellness challenge",
+        "earned_date": "2024-01-15T10:30:00.000Z"
+      }
+    ]
+    ```
+  - Error Responses:
+    - 500: Database error
+
+* Get All Available Badges (CA2)
+- GET /games/badges
+  - Success Response (200):
+    ```json
+    [
+      {
+        "badge_id": 1,
+        "badge_name": "First Challenge",
+        "description": "Complete your first wellness challenge"
+      },
+      {
+        "badge_id": 2,
+        "badge_name": "Water Master",
+        "description": "Master of hydration challenges"
+      }
+    ]
+    ```
 
 ---
 

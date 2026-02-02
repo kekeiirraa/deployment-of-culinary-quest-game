@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Culinary Adventure Quest</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <header class="top-nav">
+    <a href="index.html" class="logo">Culinary Quest</a>
+    <nav>
+      <a href="dashboard.html" class="active">Dashboard</a>
+      <a href="challenges.html">All Challenges</a>
+      <a href="progress.html">My Progress</a>
+      <a href="create-challenge.html">Create Challenge</a>
+      <a href="badges.html">Badges</a>
+      <button id="logout-btn" class="btn-link">Log out</button>
+    </nav>
+  </header>
+
+  <main class="dashboard-main">
+    <section id="profile-container" class="card profile-card">
+      <p class="loading">Loading profile...</p>
+    </section>
+
+    <section id="leaderboard-container" class="card leaderboard-card">
+      <p class="loading">Loading leaderboard...</p>
+    </section>
+
+    <section class="card quick-links">
+      <h3>Quick Actions</h3>
+      <div class="quick-actions-grid">
+        <a href="challenges.html" class="btn-primary">View All Challenges</a>
+        <a href="progress.html" class="btn-primary">My Progress</a>
+        <a href="create-challenge.html" class="btn-secondary">Create Challenge</a>
+        <a href="badges.html" class="btn-secondary">View Badges</a>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/app.js"></script>
+  <script>
+    initDashboard();
+  </script>
+</body>
+
+</html>

@@ -9,7 +9,7 @@ const connection = mysql.createConnection({
 });
 
 const SQLSTATEMENT = `
-CREATE DATABASE IF NOT EXISTS wellness_game;
+CREATE DATABASE IF NOT EXISTS food;
 `;
 
 connection.query(SQLSTATEMENT, (error, results) => {
@@ -18,7 +18,7 @@ connection.query(SQLSTATEMENT, (error, results) => {
         connection.end();
         process.exit(1);
     } else {
-        console.log("Database 'wellness_game' created successfully!");
+        console.log("Database 'food' created successfully!");
         connection.end();
         process.exit(0);
     }

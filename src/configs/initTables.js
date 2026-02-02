@@ -8,16 +8,16 @@ const connection = mysql.createConnection({
   multipleStatements: true
 });
 
-// First, ensure the database exists
-connection.query('CREATE DATABASE IF NOT EXISTS wellness_game;', (error) => {
+// first, ensure the database exists
+connection.query('CREATE DATABASE IF NOT EXISTS food;', (error) => {
   if (error) {
     console.error("Error creating database:", error);
     connection.end();
     process.exit(1);
   }
 
-  // Now use the database
-  connection.query('USE wellness_game;', (error) => {
+  // now use the database
+  connection.query('USE food;', (error) => {
     if (error) {
       console.error("Error selecting database:", error);
       connection.end();
@@ -46,6 +46,7 @@ CREATE TABLE ChefRanks (
 CREATE TABLE User (
   user_id INT AUTO_INCREMENT PRIMARY KEY,
   username VARCHAR(255) NOT NULL UNIQUE,
+  email VARCHAR(255) NOT NULL UNIQUE,
   password_hash VARCHAR(255),
   points INT DEFAULT 0,
   current_rank_id INT,
@@ -110,10 +111,10 @@ INSERT INTO ChefRanks (rank_name, min_points, special_ability) VALUES
 ('Grand Gastromancer', 1000, 'Legendary status');
 
 -- insert sample users (no password - for api testing only)
-INSERT INTO User (username, points, current_rank_id) VALUES
-('chef_john', 0, 1),
-('baking_lover', 0, 1),
-('healthy_guy', 0, 1);
+INSERT INTO User (username, email, points, current_rank_id) VALUES
+('chef_john', 'chef_john@example.com', 0, 1),
+('baking_lover', 'baking_lover@example.com', 0, 1),
+('healthy_guy', 'healthy_guy@example.com', 0, 1);
 
 -- Insert sample challenges (Cooking-themed wellness challenges)
 INSERT INTO WellnessChallenge (creator_id, description, points) VALUES

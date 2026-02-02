@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Badges - Culinary Adventure Quest</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <header class="top-nav">
+    <a href="index.html" class="logo">Culinary Quest</a>
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="challenges.html">All Challenges</a>
+      <a href="progress.html">My Progress</a>
+      <a href="create-challenge.html">Create Challenge</a>
+      <a href="badges.html" class="active">Badges</a>
+      <button id="logout-btn" class="btn-link">Log out</button>
+    </nav>
+  </header>
+
+  <main class="badges-main">
+    <h1>Badges & Achievements</h1>
+    <p class="subtitle">Earn badges by completing challenges and reaching milestones</p>
+
+    <section id="earned-badges" class="card">
+      <h3>My Badges (<span id="earned-count">0</span>)</h3>
+      <div id="earned-badges-container" class="badges-grid">
+        <p class="loading">Loading your badges...</p>
+      </div>
+    </section>
+
+    <section id="all-badges" class="card">
+      <h3>All Available Badges</h3>
+      <div id="all-badges-container" class="badges-grid">
+        <p class="loading">Loading badges...</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/app.js"></script>
+  <script>
+    initBadges();
+  </script>
+</body>
+
+</html>

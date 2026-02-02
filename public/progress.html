@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Progress - Culinary Adventure Quest</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <header class="top-nav">
+    <a href="index.html" class="logo">Culinary Quest</a>
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="challenges.html">All Challenges</a>
+      <a href="progress.html" class="active">My Progress</a>
+      <a href="create-challenge.html">Create Challenge</a>
+      <a href="badges.html">Badges</a>
+      <button id="logout-btn" class="btn-link">Log out</button>
+    </nav>
+  </header>
+
+  <main class="progress-main">
+    <h1>My Wellness Journey</h1>
+    <p class="subtitle">Track your completed challenges and earned points</p>
+
+    <section id="progress-summary" class="card">
+      <h3>Progress Summary</h3>
+      <div id="summary-content" class="loading">Loading...</div>
+    </section>
+
+    <section class="card">
+      <h3>Completed Challenges</h3>
+      <div id="completed-challenges-container">
+        <p class="loading">Loading your completed challenges...</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/app.js"></script>
+  <script>
+    initProgress();
+  </script>
+</body>
+
+</html>
