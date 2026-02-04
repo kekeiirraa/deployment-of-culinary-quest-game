@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chef's Achievements - Culinary Adventure Quest</title>
+  <title>Chef's Cookbook - Culinary Adventure Quest</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -14,33 +14,32 @@
     <nav class="nav-links">
       <a href="dashboard.html">&#127968; Dashboard</a>
       <a href="challenges.html">&#128203; Kitchen Quests</a>
-      <a href="recipe-book.html">&#128214; Recipe Book</a>
+      <a href="recipe-book.html" class="active">&#128214; Recipe Book</a>
       <a href="pantry.html">&#128451; My Pantry</a>
       <a href="create-challenge.html">&#128296; Create Quest</a>
       <a href="progress.html">&#128200; My Journey</a>
-      <a href="badges.html" class="active">&#127942; Achievements</a>
+      <a href="badges.html">&#127942; Achievements</a>
       <button id="logout-btn" class="btn-link">Log out</button>
     </nav>
   </header>
 
-  <main class="badges-main">
-    <h1>&#127942; Chef's Achievements</h1>
-    <p class="subtitle">Earn badges by completing challenges and reaching milestones</p>
+  <main class="recipe-book-main dashboard-main">
+    <h1>&#128214; Chef's Cookbook</h1>
+    <p class="subtitle">Unlock recipes as you earn points. Craft when you have the ingredients.</p>
 
-    <!-- culinary badges (earned) -->
-    <section id="earned-badges" class="card achievements-section">
-      <h3>&#127942; Culinary Badges (<span id="earned-count">0</span>)</h3>
-      <div id="earned-badges-container" class="badges-grid">
-        <p class="loading">Loading your badges...</p>
+    <!-- unlocked recipes -->
+    <section id="unlocked-recipes-section" class="card">
+      <h3>Unlocked Recipes</h3>
+      <div id="unlocked-recipes-container" class="recipe-cards-grid">
+        <p class="loading">Loading...</p>
       </div>
     </section>
 
-    <!-- all available badges -->
-    <section id="all-badges" class="card achievements-section">
-      <h3>&#128218; All Available Badges</h3>
-      <p class="muted">Recipe Mastery, Ingredient Collector, Challenge Completer, and Rank Milestones.</p>
-      <div id="all-badges-container" class="badges-grid">
-        <p class="loading">Loading badges...</p>
+    <!-- locked recipes -->
+    <section id="locked-recipes-section" class="card">
+      <h3>Locked Recipes</h3>
+      <div id="locked-recipes-container" class="recipe-cards-grid">
+        <p class="loading">Loading...</p>
       </div>
     </section>
   </main>
@@ -55,9 +54,9 @@
 
   <script src="js/api.js"></script>
   <script src="js/utils.js"></script>
-  <script src="js/badges.js"></script>
+  <script src="js/recipe-book.js"></script>
   <script>
-    initBadges();
+    initRecipeBook();
     initLogout();
   </script>
 </body>

@@ -1,4 +1,4 @@
-// server entry point
+  // server entry point
 // starts the express application and listens for incoming requests
 
 require('dotenv').config();

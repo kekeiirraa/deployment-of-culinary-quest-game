@@ -2,48 +2,93 @@
 <html lang="en">
 
 <head>
+  <!-- character set and viewport -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard - Culinary Adventure Quest</title>
+  <!-- our custom css, no bootstrap -->
   <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
+  <!-- top bar: Culinary Adventure Quest nav -->
   <header class="top-nav">
     <a href="index.html" class="logo">Culinary Quest</a>
-    <nav>
-      <a href="dashboard.html" class="active">Dashboard</a>
-      <a href="challenges.html">All Challenges</a>
-      <a href="progress.html">My Progress</a>
-      <a href="create-challenge.html">Create Challenge</a>
-      <a href="badges.html">Badges</a>
+    <nav class="nav-links">
+      <a href="dashboard.html" class="active">&#127968; Dashboard</a>
+      <a href="challenges.html">&#128203; Kitchen Quests</a>
+      <a href="recipe-book.html">&#128214; Recipe Book</a>
+      <a href="pantry.html">&#128451; My Pantry</a>
+      <a href="create-challenge.html">&#128296; Create Quest</a>
+      <a href="progress.html">&#128200; My Journey</a>
+      <a href="badges.html">&#127942; Achievements</a>
       <button id="logout-btn" class="btn-link">Log out</button>
     </nav>
   </header>
 
+  <!-- main content area -->
   <main class="dashboard-main">
+    <!-- profile card, filled by javascript -->
     <section id="profile-container" class="card profile-card">
       <p class="loading">Loading profile...</p>
     </section>
 
+    <!-- chef's recipe book: unlocked/locked recipe cards -->
+    <section id="recipe-book-section" class="card recipe-book-card">
+      <h3>&#128214; Chef's Recipe Book</h3>
+      <div id="recipe-cards-container" class="recipe-cards-grid">
+        <p class="loading">Loading recipes...</p>
+      </div>
+      <p class="recipe-book-footer"><a href="recipe-book.html">View full Cookbook</a></p>
+    </section>
+
+    <!-- available to craft (recipes you have ingredients for) -->
+    <section class="card available-craft-card">
+      <h3>&#128269; Available to Craft</h3>
+      <div id="available-craft-container">
+        <p class="muted">Complete Kitchen Quests to earn ingredients. <a href="challenges.html">Start a quest</a></p>
+      </div>
+    </section>
+
+    <!-- pantry quick view: top ingredients -->
+    <section class="card pantry-quick-card">
+      <h3>&#128451; Pantry Quick View</h3>
+      <div id="pantry-quick-container">
+        <p class="muted">Your top ingredients will appear here. <a href="pantry.html">View full Pantry</a></p>
+      </div>
+    </section>
+
+    <!-- leaderboard card, filled by javascript -->
     <section id="leaderboard-container" class="card leaderboard-card">
       <p class="loading">Loading leaderboard...</p>
     </section>
 
+    <!-- quick links to other pages -->
     <section class="card quick-links">
       <h3>Quick Actions</h3>
       <div class="quick-actions-grid">
-        <a href="challenges.html" class="btn-primary">View All Challenges</a>
-        <a href="progress.html" class="btn-primary">My Progress</a>
-        <a href="create-challenge.html" class="btn-secondary">Create Challenge</a>
-        <a href="badges.html" class="btn-secondary">View Badges</a>
+        <a href="challenges.html" class="btn-primary">Kitchen Quests</a>
+        <a href="progress.html" class="btn-primary">My Culinary Journey</a>
+        <a href="create-challenge.html" class="btn-secondary">Create Quest</a>
+        <a href="badges.html" class="btn-secondary">Chef's Achievements</a>
       </div>
     </section>
   </main>
 
-  <script src="js/app.js"></script>
+  <nav class="bottom-nav" aria-label="Mobile navigation">
+    <a href="dashboard.html"><span>&#127968;</span> Home</a>
+    <a href="challenges.html"><span>&#128203;</span> Quests</a>
+    <a href="recipe-book.html"><span>&#128214;</span> Recipes</a>
+    <a href="create-challenge.html"><span>&#128296;</span> Create</a>
+    <a href="progress.html"><span>&#128200;</span> Journey</a>
+  </nav>
+
+  <script src="js/api.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/dashboard.js"></script>
   <script>
     initDashboard();
+    initLogout();
   </script>
 </body>
 

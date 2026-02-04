@@ -2,19 +2,24 @@
 <html lang="en">
 
 <head>
+  <!-- character set and viewport -->
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Log in - Culinary Adventure Quest</title>
+  <!-- our custom css, no bootstrap -->
   <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body class="auth-page">
+  <!-- card that sits on top of background image -->
   <main class="auth-card">
     <h1>Log in</h1>
     <p class="subtitle">Culinary Adventure Quest</p>
 
+    <!-- div where error or success message is shown -->
     <div id="message" class="message hidden" role="alert"></div>
 
+    <!-- login form -->
     <form id="login-form" novalidate>
       <div class="form-group">
         <label for="identifier">Username or Email</label>
@@ -29,12 +34,15 @@
       <button type="submit">Log in</button>
     </form>
 
+    <!-- links to register or go back home -->
     <p class="links">
       Don't have an account? <a href="register.html">Register</a><br>
       <a href="index.html">Back to home</a>
     </p>
   </main>
-  <script src="js/app.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/login.js"></script>
   <script>
     initLoginForm();
   </script>

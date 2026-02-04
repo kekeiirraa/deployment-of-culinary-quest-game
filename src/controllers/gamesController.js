@@ -112,3 +112,72 @@ function getNextRank(points) {
     if (points < 1000) return 'Grand Gastromancer at 1000 points';
     return 'Max level reached!';
 }
+
+// ========================================
+// recipe unlock system
+// ========================================
+
+// get all recipes (for cookbook)
+module.exports.getRecipes = (req, res, next) => {
+    gamesModels.getRecipes((error, results) => {
+        if (error) {
+            console.error('Error getRecipes:', error);
+            return res.status(500).json({ error: 'Database error' });
+        }
+        res.status(200).json(results);
+    });
+};
+
+// get recipes with unlock status for a user
+module.exports.getUserRecipes = (req, res, next) => {
+    const userId = req.params.userId;
+    gamesModels.getRecipes((err, recipes) => {
+        if (err) return res.status(500).json({ error: 'Database error' });
+        gamesModels.getUserUnlockedRecipeIds(userId, (err2, unlockedRows) => {
+            if (err2) return res.status(500).json({ error: 'Database error' });
+            const unlockedIds = (unlockedRows || []).map(r => r.recipe_id);
+            const withStatus = (recipes || []).map(r => ({
+                recipe_id: r.recipe_id,
+                recipe_name: r.recipe_name,
+                description: r.description,
+                required_points: r.required_points,
+                unlocked: unlockedIds.indexOf(r.recipe_id) !== -1
+            }));
+            res.status(200).json(withStatus);
+        });
+    });
+};
+
+// unlock recipe for user when points qualify (idempotent)
+module.exports.unlockRecipe = (req, res, next) => {
+    const userId = req.params.userId;
+    const recipeId = parseInt(req.params.recipeId, 10);
+    if (!recipeId) return res.status(400).json({ error: 'Invalid recipe id' });
+    gamesModels.getRecipes((err, recipes) => {
+        if (err) return res.status(500).json({ error: 'Database error' });
+        const recipe = (recipes || []).find(r => r.recipe_id === recipeId);
+        if (!recipe) return res.status(404).json({ error: 'Recipe not found' });
+        gamesModels.getUserProfile(userId, (err2, profileRows) => {
+            if (err2 || !profileRows || profileRows.length === 0) return res.status(404).json({ error: 'User not found' });
+            const points = profileRows[0].points;
+            if (points < recipe.required_points) {
+                return res.status(400).json({ error: 'Not enough points to unlock this recipe' });
+            }
+            gamesModels.unlockRecipeForUser(userId, recipeId, (err3) => {
+                if (err3) return res.status(500).json({ error: 'Database error' });
+                res.status(200).json({ message: 'Recipe unlocked', recipe_id: recipeId });
+            });
+        });
+    });
+};
+
+// get challenge categories
+module.exports.getCategories = (req, res, next) => {
+    gamesModels.getCategories((error, results) => {
+        if (error) {
+            console.error('Error getCategories:', error);
+            return res.status(500).json({ error: 'Database error' });
+        }
+        res.status(200).json(results || []);
+    });
+};

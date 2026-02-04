@@ -14,11 +14,13 @@ Culinary Adventure Quest transforms wellness activities into cooking challenges.
   - `index.html` – Home page with login/register links
   - `login.html` – Log in with username OR email
   - `register.html` – Sign up with username, email, password
-  - `dashboard.html` – Protected page showing profile and leaderboard (fetch + DOM)
-  - `challenges.html` – Protected page listing all challenges to complete (fetch + DOM)
-  - `progress.html` – Track your completed challenges and points earned
-  - `create-challenge.html` – Create new wellness challenges for the community
-  - `badges.html` – View earned badges and all available badges
+  - `dashboard.html` – Dashboard with profile, leaderboard, Chef's Recipe Book, Pantry Quick View
+  - `challenges.html` – **Kitchen Quests**: all challenges with category tabs (Kitchen Prep, Market Run, Chef's Rest, Recipe Research, Seasonal Specials)
+  - `recipe-book.html` – **Chef's Cookbook**: unlocked/locked recipes, "Recipes I Can Make Now"
+  - `pantry.html` – **Chef's Pantry**: ingredients (placeholder for future crafting)
+  - `progress.html` – **My Culinary Journey**: progress overview, completed quests, links to Pantry/Recipe Book/Badges
+  - `create-challenge.html` – **Create Kitchen Quest**: form with Quest Category, Suggested Cooking Time
+  - `badges.html` – **Chef's Achievements**: earned and available badges
 
 *** Wellness Challenge Management ***
 
@@ -44,6 +46,19 @@ Culinary Adventure Quest transforms wellness activities into cooking challenges.
 - **Badges System**: Earn achievements for completing challenges
 - **Points System**: All challenges award points based on difficulty
 
+**Recipe Unlock System** (game feature):
+- Users unlock virtual recipes as they earn points (e.g. 50 pts → Beginner Smoothie, 150 → Protein Power Bowl, 300 → Master Chef Salad).
+- Recipe cards "light up" when unlocked (cooking animation); locked recipes show unlock threshold.
+- Dashboard shows Chef's Recipe Book snippet; full list on Recipe Book page.
+
+**Challenge Categories** (cooking themes):
+- **Kitchen Prep** – Morning routines (hydration, stretching)
+- **Market Run** – Physical activity (steps, exercise)
+- **Chef's Rest** – Sleep & mental wellness
+- **Recipe Research** – Learning/reading challenges
+- **Seasonal Specials** – Time-limited quests
+- Kitchen Quests page has category tabs; filtering is by keyword in description until challenges have category_id in DB.
+
 *** Validation ***
 
 **Client-side validation** (instant feedback in UI):
@@ -62,7 +77,7 @@ Culinary Adventure Quest transforms wellness activities into cooking challenges.
 
 1. **Dependencies**: `npm install`
 2. **Environment**: Copy `.env.example` to `.env` and set `JWT_SECRET_KEY`, `JWT_EXPIRES_IN`, `JWT_ALGORITHM` (required for auth).
-3. **Database**: MySQL with database and tables from CA1. If you already have the CA1 database, run the migration to add the password and email columns: `node src/configs/addPasswordColumn.js`. For a fresh setup, run `node src/configs/initTables.js` (schema includes `password_hash`, `email`, and unique constraints).
+3. **Database**: MySQL with database and tables from CA1. If you already have the CA1 database, run the migration to add the password and email columns: `node src/configs/addPasswordColumn.js`. For a fresh setup, run `node src/configs/initTables.js` (schema includes `password_hash`, `email`, and unique constraints). For the recipe unlock system and challenge categories, run `node src/configs/addRecipeSystem.js` (adds ChallengeCategory, Ingredient, UserIngredient, RecipeIngredient, RecipeReview, and seeds recipes at 50/150/300 points).
 4. **Start server**: `npm run dev` or `npm start`. Server runs on port 3000.
 5. **Frontend**: Open `http://localhost:3000` in a browser. Use Register to create an account, then Log in. The API info is at `GET /api`.
 
@@ -481,3 +496,9 @@ All endpoints return appropriate HTTP status codes:
 - 404 - Not Found
 - 409 - Conflict 
 - 500 - Internal Server Error
+
+---
+
+## ERD Changes 
+The database structure was updated to better support user management, security, and data tracking. The User table was enhanced by adding email and password fields to allow proper authentication and ensure each user is uniquely identifiable. Primary keys were updated to use auto-increment for easier record management, and timestamp defaults were added to tables such as UserCompletion, UserBadges, and UserRecipes to automatically track when actions occur. The overall relationships between users, challenges, badges, recipes, and ranks remain the same, but the updated schema improves data integrity, scalability, and real-world usability.
+

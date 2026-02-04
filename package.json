@@ -24,5 +24,6 @@
   "bugs": {
     "url": "https://github.com/ST0503-BED/bed-ca2-kekeiirraa/issues"
   },
-  "homepage": "https://github.com/ST0503-BED/bed-ca2-kekeiirraa#readme"
+  "homepage": "https://github.com/ST0503-BED/bed-ca2-kekeiirraa#readme",
+  "devDependencies": {}
 }

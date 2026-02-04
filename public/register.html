@@ -2,19 +2,24 @@
 <html lang="en">
 
 <head>
+  <!-- character set and viewport -->
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Register - Culinary Adventure Quest</title>
+  <!-- our custom css, no bootstrap -->
   <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body class="auth-page">
+  <!-- card on top of background image -->
   <main class="auth-card">
     <h1>Register</h1>
     <p class="subtitle">Create an account to join the wellness challenges.</p>
 
+    <!-- where we show error or success message -->
     <div id="message" class="message hidden" role="alert"></div>
 
+    <!-- register form with username, email, password -->
     <form id="register-form" novalidate>
       <div class="form-group">
         <label for="username">Username</label>
@@ -34,6 +39,7 @@
         <div id="password-strength" class="password-strength hidden"></div>
         <span id="password-error" class="field-error hidden"></span>
       </div>
+      <!-- list of password rules -->
       <div class="password-requirements">
         <p>Password must contain:</p>
         <ul>
@@ -47,12 +53,16 @@
       <button type="submit">Register</button>
     </form>
 
+    <!-- link to login page -->
     <p class="links">
-      Already have an account? <a href="login.html">Log in</a><br> 
+      Already have an account? <a href="login.html">Log in</a><br>
       <a href="index.html">Back to home</a>
     </p>
   </main>
-  <script src="js/app.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/validation.js"></script>
+  <script src="js/register.js"></script>
   <script>
     initRegisterForm();
   </script>

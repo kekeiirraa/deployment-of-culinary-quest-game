@@ -4,43 +4,68 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Progress - Culinary Adventure Quest</title>
+  <title>My Culinary Journey - Culinary Adventure Quest</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
   <header class="top-nav">
     <a href="index.html" class="logo">Culinary Quest</a>
-    <nav>
-      <a href="dashboard.html">Dashboard</a>
-      <a href="challenges.html">All Challenges</a>
-      <a href="progress.html" class="active">My Progress</a>
-      <a href="create-challenge.html">Create Challenge</a>
-      <a href="badges.html">Badges</a>
+    <nav class="nav-links">
+      <a href="dashboard.html">&#127968; Dashboard</a>
+      <a href="challenges.html">&#128203; Kitchen Quests</a>
+      <a href="recipe-book.html">&#128214; Recipe Book</a>
+      <a href="pantry.html">&#128451; My Pantry</a>
+      <a href="create-challenge.html">&#128296; Create Quest</a>
+      <a href="progress.html" class="active">&#128200; My Journey</a>
+      <a href="badges.html">&#127942; Achievements</a>
       <button id="logout-btn" class="btn-link">Log out</button>
     </nav>
   </header>
 
   <main class="progress-main">
-    <h1>My Wellness Journey</h1>
-    <p class="subtitle">Track your completed challenges and earned points</p>
+    <h1>&#128200; My Culinary Journey</h1>
+    <p class="subtitle">Track your completed quests, points, and progress</p>
 
-    <section id="progress-summary" class="card">
-      <h3>Progress Summary</h3>
+    <!-- progress overview -->
+    <section id="progress-summary" class="card journey-section">
+      <h3>&#128202; Progress Overview</h3>
       <div id="summary-content" class="loading">Loading...</div>
     </section>
 
-    <section class="card">
-      <h3>Completed Challenges</h3>
+    <!-- completed quests (timeline) -->
+    <section class="card journey-section">
+      <h3>&#128197; Completed Quests</h3>
       <div id="completed-challenges-container">
         <p class="loading">Loading your completed challenges...</p>
       </div>
     </section>
+
+    <!-- quick links to pantry, recipe book, badges -->
+    <section class="card journey-links">
+      <h3>More of Your Journey</h3>
+      <div class="quick-actions-grid">
+        <a href="pantry.html" class="btn-secondary">&#128451; My Pantry</a>
+        <a href="recipe-book.html" class="btn-secondary">&#128214; My Recipe Book</a>
+        <a href="badges.html" class="btn-secondary">&#127942; My Badges & Achievements</a>
+      </div>
+    </section>
   </main>
 
-  <script src="js/app.js"></script>
+  <nav class="bottom-nav" aria-label="Mobile navigation">
+    <a href="dashboard.html"><span>&#127968;</span> Home</a>
+    <a href="challenges.html"><span>&#128203;</span> Quests</a>
+    <a href="recipe-book.html"><span>&#128214;</span> Recipes</a>
+    <a href="create-challenge.html"><span>&#128296;</span> Create</a>
+    <a href="progress.html"><span>&#128200;</span> Journey</a>
+  </nav>
+
+  <script src="js/api.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/progress.js"></script>
   <script>
     initProgress();
+    initLogout();
   </script>
 </body>
 

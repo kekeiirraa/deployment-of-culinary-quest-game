@@ -1,10 +1,13 @@
 /* culinary adventure quest - ca2 frontend styles */
+/* we do not use bootstrap - layout is custom css with flexbox and grid (no col-xl-2 etc) */
 /* warm food theme with background image and #f8eee2 */
 
+/* reset: make padding and border count inside width */
 * {
   box-sizing: border-box;
 }
 
+/* default body style */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
@@ -40,6 +43,309 @@ body.auth-page .auth-card {
   padding: 2rem;
 }
 
+/* landing page: full layout with top nav, overview cards, bottom CTA */
+body.auth-page.landing-page {
+  padding-top: 0;
+  justify-content: flex-start;
+  min-height: 100vh;
+}
+
+/* landing page only: logo left, right side = Log in + Register (or Dashboard + Log out when logged in) */
+.landing-top-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1.25rem;
+  background: rgba(92, 64, 51, 0.95);
+  color: #f8eee2;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+}
+
+.landing-logo {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #f8eee2;
+  text-decoration: none;
+}
+
+.landing-nav-links {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.landing-nav-btn {
+  color: rgba(248, 238, 226, 0.95);
+  text-decoration: none;
+  font-size: 0.9rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 8px;
+  background: transparent;
+  border: 1px solid rgba(248, 238, 226, 0.4);
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.landing-nav-btn:hover,
+.landing-nav-btn.landing-nav-register:hover {
+  background: rgba(248, 238, 226, 0.2);
+  color: #f8eee2;
+}
+
+.landing-nav-register {
+  background: rgba(248, 238, 226, 0.15);
+  border-color: rgba(248, 238, 226, 0.6);
+}
+
+.landing-logout {
+  color: rgba(248, 238, 226, 0.9);
+}
+
+.landing-main {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 5rem 1.25rem 3rem;
+}
+
+.landing-hero-block {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.landing-title {
+  font-size: clamp(1.6rem, 5vw, 2.25rem);
+  color: #5c4033;
+  margin: 0 0 0.5rem 0;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.landing-tagline {
+  font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+  color: #6b5344;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.landing-overview {
+  margin-bottom: 2.5rem;
+}
+
+.landing-overview-title {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #5c4033;
+  margin: 0 0 1.25rem 0;
+}
+
+.landing-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.landing-card-item {
+  background: rgba(248, 238, 226, 0.95);
+  border-radius: 12px;
+  padding: 1.25rem;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(92, 64, 51, 0.15);
+}
+
+.landing-card-icon {
+  font-size: 2.25rem;
+  display: block;
+  margin-bottom: 0.5rem;
+  line-height: 1;
+}
+
+.landing-card-item h3 {
+  margin: 0 0 0.35rem 0;
+  font-size: 1rem;
+  color: #5c4033;
+}
+
+.landing-card-item p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #6b5344;
+  line-height: 1.4;
+}
+
+.landing-bottom-cta {
+  text-align: center;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(92, 64, 51, 0.25);
+}
+
+.landing-bottom-cta h2 {
+  font-size: 1.25rem;
+  color: #5c4033;
+  margin: 0 0 1rem 0;
+}
+
+.landing-cta-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.landing-cta-card {
+  display: block;
+  background: rgba(248, 238, 226, 0.95);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+  border: 2px solid rgba(92, 64, 51, 0.25);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+.landing-cta-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+  border-color: #5c4033;
+}
+
+.landing-cta-primary {
+  border-color: #5c4033;
+  background: rgba(92, 64, 51, 0.08);
+}
+
+.landing-cta-label {
+  display: block;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #5c4033;
+  margin-bottom: 0.35rem;
+}
+
+.landing-cta-desc {
+  display: block;
+  font-size: 0.85rem;
+  color: #6b5344;
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+}
+
+.landing-cta-link {
+  display: inline-block;
+  padding: 0.5rem 1.25rem;
+  background: #5c4033;
+  color: #f8eee2;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.landing-cta-secondary .landing-cta-link {
+  background: #8b7355;
+}
+
+.landing-cta-p {
+  margin: 0 0 1rem 0;
+  font-size: 0.95rem;
+  color: #6b5344;
+}
+
+.landing-cta-buttons-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+.landing-cta-buttons-inline .btn-primary,
+.landing-cta-buttons-inline .btn-secondary {
+  margin: 0;
+}
+
+/* legacy landing (login/register cards) */
+.landing-hero {
+  margin-bottom: 1.5rem;
+}
+
+.landing-hero .subtitle {
+  margin-bottom: 0.75rem;
+}
+
+.landing-intro {
+  font-size: 0.9rem;
+  color: #6b5344;
+  line-height: 1.5;
+  margin: 0 0 1.5rem 0;
+}
+
+.landing-features {
+  margin-bottom: 1.5rem;
+}
+
+.landing-features h2,
+.landing-cta h2 {
+  font-size: 1.15rem;
+  margin-bottom: 0.5rem;
+}
+
+.feature-list {
+  margin: 0 0 0 1rem;
+  padding-left: 0.5rem;
+  font-size: 0.9rem;
+  color: #5c4033;
+  line-height: 1.6;
+}
+
+.feature-list li {
+  margin-bottom: 0.4rem;
+}
+
+.landing-cta {
+  border-top: 1px solid rgba(92, 64, 51, 0.2);
+  padding-top: 1.25rem;
+  text-align: center;
+}
+
+.landing-cta p {
+  margin: 0.5rem 0 1rem 0;
+  font-size: 0.9rem;
+}
+
+.cta-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.cta-buttons .btn-primary,
+.cta-buttons .btn-secondary {
+  margin: 0;
+}
+
+.btn-logout {
+  background: transparent;
+  border: 1px solid #8b7355;
+  color: #5c4033;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.btn-logout:hover {
+  background: rgba(92, 64, 51, 0.1);
+}
+
 /* ========================================
    layout
    ======================================== */
@@ -54,10 +360,12 @@ main {
   margin: 2rem auto;
 }
 
-/* dashboard, challenges, progress layout */
+/* dashboard, challenges, progress, recipe-book, pantry layout */
 .dashboard-main,
 .challenges-main,
-.progress-main {
+.progress-main,
+.recipe-book-main,
+.pantry-main {
   max-width: 900px;
   width: 100%;
   padding: 1.5rem;
@@ -120,53 +428,65 @@ h3 {
    navigation
    ======================================== */
 
+/* app pages only (dashboard, challenges, etc.): logo left, all page links + Log out on right */
 .top-nav {
   background: #5c4033;
   color: #f8eee2;
-  padding: 0.75rem 1.5rem;
+  padding: 0.6rem 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
 }
 
 .top-nav .logo {
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: #f8eee2;
   text-decoration: none;
+  flex-shrink: 0;
 }
 
-.top-nav nav {
+.top-nav .nav-links {
   display: flex;
-  gap: 1rem;
+  gap: 0.5rem;
   align-items: center;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
 }
 
-.top-nav nav a {
+.top-nav .nav-links a {
   color: rgba(248, 238, 226, 0.9);
   text-decoration: none;
-  font-size: 0.9rem;
-  padding: 0.25rem 0.5rem;
+  font-size: 0.85rem;
+  padding: 0.35rem 0.5rem;
   border-radius: 4px;
-  transition: background 0.2s;
+  white-space: nowrap;
 }
 
-.top-nav nav a:hover,
-.top-nav nav a.active {
+.top-nav .nav-links a:hover,
+.top-nav .nav-links a.active {
   background: rgba(248, 238, 226, 0.2);
   color: #f8eee2;
 }
 
-.btn-link {
+/* Log out: one small button on the far right (last item in nav-links) */
+.top-nav .nav-links .btn-link {
   background: none;
   border: none;
   color: rgba(248, 238, 226, 0.9);
   cursor: pointer;
-  font-size: 0.9rem;
-  padding: 0.25rem 0.5rem;
+  font-size: 0.85rem;
+  padding: 0.35rem 0.5rem;
+  border-radius: 4px;
+  font-family: inherit;
+  white-space: nowrap;
+  margin-left: 0.25rem;
 }
 
-.btn-link:hover {
+.top-nav .nav-links .btn-link:hover {
+  background: rgba(248, 238, 226, 0.2);
   color: #f8eee2;
 }
 
@@ -579,18 +899,183 @@ button:disabled {
 }
 
 /* ========================================
+   recipe book (dashboard + recipe book page)
+   ======================================== */
+
+.recipe-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 1rem;
+}
+
+.recipe-card {
+  padding: 1rem;
+  border-radius: 12px;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 2px solid #e8dcc8;
+  background: #f8eee2;
+}
+
+.recipe-card.recipe-unlocked {
+  border-color: #5c4033;
+  box-shadow: 0 2px 12px rgba(92, 64, 51, 0.25);
+  animation: recipe-glow 2s ease-in-out infinite alternate;
+}
+
+.recipe-card.recipe-locked {
+  opacity: 0.75;
+  filter: grayscale(0.3);
+}
+
+.recipe-card-icon {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.recipe-card-name {
+  margin: 0 0 0.25rem 0;
+  font-size: 0.95rem;
+  color: #5c4033;
+}
+
+.recipe-card-desc {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.8rem;
+  color: #6b5344;
+  line-height: 1.3;
+}
+
+.recipe-card-points {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #5c4033;
+}
+
+@keyframes recipe-glow {
+  from {
+    box-shadow: 0 2px 12px rgba(92, 64, 51, 0.2);
+  }
+
+  to {
+    box-shadow: 0 4px 16px rgba(92, 64, 51, 0.35);
+  }
+}
+
+.recipe-book-footer,
+.recipe-book-footer a {
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+  color: #5c4033;
+}
+
+.muted {
+  color: #6b5344;
+  font-size: 0.9rem;
+}
+
+/* category tabs (kitchen quests) */
+.category-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.category-tabs button {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #8b7355;
+  background: #f8eee2;
+  color: #5c4033;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.category-tabs button:hover,
+.category-tabs button.active {
+  background: #5c4033;
+  color: #f8eee2;
+  border-color: #5c4033;
+}
+
+/* mobile bottom bar */
+.bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #5c4033;
+  color: #f8eee2;
+  padding: 0.5rem;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 100;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.bottom-nav a {
+  color: #f8eee2;
+  text-decoration: none;
+  font-size: 0.75rem;
+  text-align: center;
+  padding: 0.25rem;
+}
+
+.bottom-nav a span {
+  display: block;
+  font-size: 1.25rem;
+  margin-bottom: 0.15rem;
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+
+  .bottom-nav {
+    display: flex;
+  }
+
+  body {
+    padding-bottom: 4rem;
+  }
+}
+
+@media (min-width: 769px) {
+  .bottom-nav {
+    display: none;
+  }
+}
+
+.pantry-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 0.75rem;
+}
+
+/* ========================================
    progress page
    ======================================== */
 
+.challenges-main h1,
 .progress-main h1,
 .create-challenge-main h1,
-.badges-main h1 {
+.badges-main h1,
+.recipe-book-main h1,
+.pantry-main h1 {
   text-align: left;
 }
 
+.challenges-main .subtitle,
 .progress-main .subtitle,
 .create-challenge-main .subtitle,
-.badges-main .subtitle {
+.badges-main .subtitle,
+.recipe-book-main .subtitle,
+.pantry-main .subtitle {
   text-align: left;
   margin-bottom: 1.5rem;
 }
@@ -821,21 +1306,100 @@ button:disabled {
    responsive
    ======================================== */
 
+/* tablet (iPad portrait and similar) */
+@media (max-width: 768px) {
+  .landing-main {
+    padding: 4.5rem 1rem 2rem;
+  }
+
+  .landing-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .landing-cta-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .top-nav {
+    padding: 0.6rem 1rem;
+  }
+
+  .top-nav .nav-links a,
+  .top-nav .btn-link {
+    padding: 0.5rem 0.6rem;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .dashboard-main,
+  .challenges-main,
+  .progress-main,
+  .recipe-book-main,
+  .pantry-main {
+    padding: 1rem;
+  }
+
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* phone (iPhone and similar) */
 @media (max-width: 480px) {
   main {
     margin: 1rem;
     padding: 1.5rem;
   }
 
+  .landing-top-nav {
+    padding: 0.6rem 1rem;
+    flex-wrap: wrap;
+  }
+
+  .landing-logo {
+    font-size: 1rem;
+  }
+
+  .landing-main {
+    padding: 4rem 0.75rem 2rem;
+  }
+
+  .landing-cards {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .landing-card-item {
+    padding: 1rem;
+  }
+
+  .landing-cta-card {
+    padding: 1.25rem;
+  }
+
+  .landing-nav-btn {
+    padding: 0.5rem 0.75rem;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
   .top-nav {
     flex-direction: column;
     gap: 0.5rem;
-    padding: 0.75rem 1rem;
+    padding: 0.6rem 1rem;
   }
 
-  .top-nav nav {
+  .top-nav .nav-links {
     flex-wrap: wrap;
     justify-content: center;
+  }
+
+  .top-nav .nav-links a,
+  .top-nav .btn-link {
+    min-height: 44px;
+    padding: 0.5rem 0.6rem;
   }
 
   .stats-grid {
@@ -844,5 +1408,35 @@ button:disabled {
 
   .stat-value {
     font-size: 1.4rem;
+  }
+
+  .recipe-cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .category-tabs {
+    flex-wrap: wrap;
+  }
+
+  .category-tabs button {
+    min-height: 44px;
+    padding: 0.5rem 0.75rem;
+  }
+}
+
+/* safe area for notched devices (iPhone X+) */
+@supports (padding: max(0px)) {
+  .landing-top-nav {
+    padding-left: max(1.25rem, env(safe-area-inset-left));
+    padding-right: max(1.25rem, env(safe-area-inset-right));
+  }
+
+  .bottom-nav {
+    padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+  }
+
+  body {
+    padding-left: env(safe-area-inset-left, 0);
+    padding-right: env(safe-area-inset-right, 0);
   }
 }

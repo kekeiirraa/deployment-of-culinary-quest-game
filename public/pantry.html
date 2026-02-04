@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chef's Pantry - Culinary Adventure Quest</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <header class="top-nav">
+    <a href="index.html" class="logo">Culinary Quest</a>
+    <nav class="nav-links">
+      <a href="dashboard.html">&#127968; Dashboard</a>
+      <a href="challenges.html">&#128203; Kitchen Quests</a>
+      <a href="recipe-book.html">&#128214; Recipe Book</a>
+      <a href="pantry.html" class="active">&#128451; My Pantry</a>
+      <a href="create-challenge.html">&#128296; Create Quest</a>
+      <a href="progress.html">&#128200; My Journey</a>
+      <a href="badges.html">&#127942; Achievements</a>
+      <button id="logout-btn" class="btn-link">Log out</button>
+    </nav>
+  </header>
+
+  <main class="pantry-main dashboard-main">
+    <h1>&#128451; Chef's Pantry</h1>
+    <p class="subtitle">Ingredients you earn from completing Kitchen Quests.</p>
+
+    <!-- all ingredients grid -->
+    <section id="pantry-ingredients" class="card">
+      <h3>&#128451; All Ingredients</h3>
+      <div id="pantry-ingredients-container" class="pantry-grid">
+        <p class="loading">Loading pantry...</p>
+      </div>
+    </section>
+
+    <!-- search & filter (placeholder) -->
+    <section class="card">
+      <h3>&#128269; Search & Filter</h3>
+      <p class="muted">Filter by Have/Lacking, Type, Rarity (coming soon).</p>
+    </section>
+
+    <!-- ingredient sources (which challenges reward them) -->
+    <section class="card">
+      <h3>&#128200; Ingredient Sources</h3>
+      <p class="muted">Complete Kitchen Quests to earn ingredients. Each quest rewards different ingredients.</p>
+    </section>
+
+    <!-- crafting suggestions -->
+    <section class="card">
+      <h3>&#128161; Crafting Suggestions</h3>
+      <p class="muted">Recipes you can make with your current ingredients (coming soon).</p>
+    </section>
+
+    <!-- wishlist (placeholder) -->
+    <section class="card">
+      <h3>&#128722; Ingredient Wishlist</h3>
+      <p class="muted">Track ingredients you need for recipes (coming soon).</p>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" aria-label="Mobile navigation">
+    <a href="dashboard.html"><span>&#127968;</span> Home</a>
+    <a href="challenges.html"><span>&#128203;</span> Quests</a>
+    <a href="recipe-book.html"><span>&#128214;</span> Recipes</a>
+    <a href="create-challenge.html"><span>&#128296;</span> Create</a>
+    <a href="progress.html"><span>&#128200;</span> Journey</a>
+  </nav>
+
+  <script src="js/api.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/pantry.js"></script>
+  <script>
+    initPantry();
+    initLogout();
+  </script>
+</body>
+
+</html>

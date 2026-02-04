@@ -76,3 +76,44 @@ module.exports.awardBadge = (data, callback) => {
     `;
     pool.query(SQLSTATEMENT, [data.user_id, data.badge_id], callback);
 };
+
+// ========================================
+// recipe unlock system
+// ========================================
+
+// get all recipes with required_points (for cookbook and unlock check)
+module.exports.getRecipes = (callback) => {
+    const SQLSTATEMENT = `
+    SELECT recipe_id, recipe_name, description, required_points
+    FROM Recipes
+    ORDER BY required_points ASC;
+    `;
+    pool.query(SQLSTATEMENT, callback);
+};
+
+// get recipe ids unlocked by a user
+module.exports.getUserUnlockedRecipeIds = (userId, callback) => {
+    const SQLSTATEMENT = `
+    SELECT recipe_id FROM UserRecipes WHERE user_id = ?;
+    `;
+    pool.query(SQLSTATEMENT, [userId], callback);
+};
+
+// unlock a recipe for a user (when points qualify)
+module.exports.unlockRecipeForUser = (userId, recipeId, callback) => {
+    const SQLSTATEMENT = `
+    INSERT IGNORE INTO UserRecipes (user_id, recipe_id) VALUES (?, ?);
+    `;
+    pool.query(SQLSTATEMENT, [userId, recipeId], callback);
+};
+
+// ========================================
+// challenge categories
+// ========================================
+
+module.exports.getCategories = (callback) => {
+    const SQLSTATEMENT = `
+    SELECT category_id, name, icon, description FROM ChallengeCategory ORDER BY category_id;
+    `;
+    pool.query(SQLSTATEMENT, callback);
+};
