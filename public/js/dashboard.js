@@ -2,7 +2,7 @@
 
 // run when dashboard loads: redirect if no token, then load profile, leaderboard, recipes
 function initDashboard() {
-  var token = getToken();
+  const token = getToken();
   if (!token) {
     window.location.href = 'login.html';
     return;
@@ -16,10 +16,10 @@ function initDashboard() {
 
 // recipe unlock system: unlock recipes when user has enough points
 function checkRecipeUnlocks(points, recipes, unlockedIds, userId, callback) {
-  var unlocked = unlockedIds || [];
-  var toUnlock = [];
-  for (var i = 0; i < recipes.length; i++) {
-    var r = recipes[i];
+  const unlocked = unlockedIds || [];
+  const toUnlock = [];
+  for (const i = 0; i < recipes.length; i++) {
+    const r = recipes[i];
     if (points >= r.required_points && unlocked.indexOf(r.recipe_id) === -1) {
       toUnlock.push(r.recipe_id);
     }
@@ -28,7 +28,7 @@ function checkRecipeUnlocks(points, recipes, unlockedIds, userId, callback) {
     callback();
     return;
   }
-  var done = 0;
+  let done = 0;
   toUnlock.forEach(function (recipeId) {
     fetch(API_BASE + '/games/user/' + userId + '/recipes/' + recipeId + '/unlock', authHeaders(null, 'POST'))
       .then(function () {
@@ -44,12 +44,12 @@ function checkRecipeUnlocks(points, recipes, unlockedIds, userId, callback) {
 
 // load and display chef's recipe book (unlocked vs locked cards)
 function loadRecipeBook() {
-  var container = document.getElementById('recipe-cards-container');
+  const container = document.getElementById('recipe-cards-container');
   if (!container) return;
 
-  var token = getToken();
-  var payload = JSON.parse(atob(token.split('.')[1]));
-  var userId = payload.userId;
+  const token = getToken();
+  const payload = JSON.parse(atob(token.split('.')[1]));
+  const userId = payload.userId;
 
   // fetch profile for points, then user recipes for unlock status
   fetch(API_BASE + '/games/profile/' + userId, authHeaders())
@@ -62,7 +62,7 @@ function loadRecipeBook() {
       return fetch(API_BASE + '/games/user/' + userId + '/recipes', authHeaders())
         .then(function (res) { return res.json(); })
         .then(function (recipesWithStatus) {
-          var unlockedIds = (recipesWithStatus || []).filter(function (r) { return r.unlocked; }).map(function (r) { return r.recipe_id; });
+          const unlockedIds = (recipesWithStatus || []).filter(function (r) { return r.unlocked; }).map(function (r) { return r.recipe_id; });
           checkRecipeUnlocks(profile.points, recipesWithStatus || [], unlockedIds, userId, function () {
             // re-fetch user recipes after unlocks so UI is up to date
             fetch(API_BASE + '/games/user/' + userId + '/recipes', authHeaders())
@@ -89,19 +89,19 @@ function renderRecipeCards(recipes, container) {
     return;
   }
   recipes.forEach(function (r) {
-    var card = document.createElement('div');
+    const card = document.createElement('div');
     card.className = 'recipe-card' + (r.unlocked ? ' recipe-unlocked' : ' recipe-locked');
     card.setAttribute('data-recipe-id', r.recipe_id);
-    var icon = document.createElement('span');
+    const icon = document.createElement('span');
     icon.className = 'recipe-card-icon';
     icon.innerHTML = r.unlocked ? '&#127859;' : '&#128274;';
-    var name = document.createElement('h4');
+    const name = document.createElement('h4');
     name.className = 'recipe-card-name';
     name.textContent = r.recipe_name;
-    var desc = document.createElement('p');
+    const desc = document.createElement('p');
     desc.className = 'recipe-card-desc';
     desc.textContent = r.description || '';
-    var pts = document.createElement('p');
+    const pts = document.createElement('p');
     pts.className = 'recipe-card-points';
     pts.textContent = r.unlocked ? 'Unlocked!' : 'Unlock at ' + r.required_points + ' pts';
     card.appendChild(icon);
@@ -114,12 +114,12 @@ function renderRecipeCards(recipes, container) {
 
 // fetch user profile and display using dom
 function loadUserProfile() {
-  var profileContainer = document.getElementById('profile-container');
+  const profileContainer = document.getElementById('profile-container');
   if (!profileContainer) return;
 
-  var token = getToken();
-  var payload = JSON.parse(atob(token.split('.')[1]));
-  var userId = payload.userId;
+  const token = getToken();
+  const payload = JSON.parse(atob(token.split('.')[1]));
+  const userId = payload.userId;
 
   fetch(API_BASE + '/games/profile/' + userId, authHeaders())
     .then(function (res) {
@@ -133,16 +133,16 @@ function loadUserProfile() {
 
       profileContainer.innerHTML = '';
 
-      var nameBox = document.createElement('h2');
+      const nameBox = document.createElement('h2');
       nameBox.textContent = 'Welcome, ' + data.username + '!';
       profileContainer.appendChild(nameBox);
 
-      var rankBox = document.createElement('p');
+      const rankBox = document.createElement('p');
       rankBox.className = 'rank-badge';
       rankBox.textContent = data.rank;
       profileContainer.appendChild(rankBox);
 
-      var statsBox = document.createElement('div');
+      const statsBox = document.createElement('div');
       statsBox.className = 'stats-grid';
       statsBox.innerHTML =
         '<div class="stat-item"><span class="stat-value">' + data.points + '</span><span class="stat-label">Points</span></div>' +
@@ -150,7 +150,7 @@ function loadUserProfile() {
       profileContainer.appendChild(statsBox);
 
       if (data.next_rank) {
-        var nextBox = document.createElement('p');
+        const nextBox = document.createElement('p');
         nextBox.className = 'next-rank';
         nextBox.textContent = 'Next: ' + data.next_rank;
         profileContainer.appendChild(nextBox);
@@ -163,7 +163,7 @@ function loadUserProfile() {
 
 // fetch and display leaderboard
 function loadLeaderboard() {
-  var leaderboardContainer = document.getElementById('leaderboard-container');
+  const leaderboardContainer = document.getElementById('leaderboard-container');
   if (!leaderboardContainer) return;
 
   fetch(API_BASE + '/games/leaderboard', authHeaders())
@@ -178,22 +178,22 @@ function loadLeaderboard() {
 
       leaderboardContainer.innerHTML = '<h3>Top Chefs</h3>';
 
-      var list = document.createElement('ol');
+      const list = document.createElement('ol');
       list.className = 'leaderboard-list';
 
       data.leaderboard.forEach(function (user, index) {
-        var item = document.createElement('li');
+        const item = document.createElement('li');
         item.className = 'leaderboard-item';
         if (index < 3) item.classList.add('top-' + (index + 1));
 
-        var nameSpan = document.createElement('span');
+        const nameSpan = document.createElement('span');
         nameSpan.className = 'lb-name';
         if (index === 0) nameSpan.innerHTML = '&#129351; ' + user.username;
         else if (index === 1) nameSpan.innerHTML = '&#129352; ' + user.username;
         else if (index === 2) nameSpan.innerHTML = '&#129353; ' + user.username;
         else nameSpan.textContent = user.username;
 
-        var pointsSpan = document.createElement('span');
+        const pointsSpan = document.createElement('span');
         pointsSpan.className = 'lb-points';
         pointsSpan.textContent = user.points + ' pts';
 

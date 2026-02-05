@@ -2,7 +2,7 @@
 // jwt is stored in localStorage and sent in api requests
 
 // base path for api calls (empty = same server)
-var API_BASE = '';
+const API_BASE = '';
 
 // ========================================
 // token management
@@ -29,12 +29,12 @@ function clearToken() {
 
 // fetch options with json body and optional auth header
 function authHeaders(body, method) {
-  var headers = { 'Content-Type': 'application/json' };
-  var token = getToken();
+  const headers = { 'Content-Type': 'application/json' };
+  const token = getToken();
   if (token) {
     headers['Authorization'] = 'Bearer ' + token;
   }
-  var opts = {
+  const opts = {
     method: method || (body ? 'POST' : 'GET'),
     headers: headers
   };
@@ -57,18 +57,18 @@ function requireAuth() {
 
 // extract user id from token
 function getUserIdFromToken() {
-  var token = getToken();
+  const token = getToken();
   if (!token) return null;
-  var payload = JSON.parse(atob(token.split('.')[1]));
+  const payload = JSON.parse(atob(token.split('.')[1]));
   return payload.userId;
 }
 
 // when logout button clicked, ask confirm then clear token and go to index
 function initLogout() {
-  var btn = document.getElementById('logout-btn');
+  const btn = document.getElementById('logout-btn');
   if (btn) {
     btn.addEventListener('click', function () {
-      var confirmLogout = confirm('Are you sure you want to log out?');
+      const confirmLogout = confirm('Are you sure you want to log out?');
       if (confirmLogout === true) {
         clearToken();
         window.location.href = 'index.html';

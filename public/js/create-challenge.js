@@ -4,7 +4,7 @@ function initCreateChallenge() {
   if (!requireAuth()) return;
   initLogout();
 
-  var form = document.getElementById('create-challenge-form');
+  const form = document.getElementById('create-challenge-form');
   if (!form) return;
 
   form.addEventListener('submit', function (e) {
@@ -12,11 +12,11 @@ function initCreateChallenge() {
     hideMessage('message');
     clearAllFieldErrors();
 
-    var description = document.getElementById('description').value.trim();
-    var points = parseInt(document.getElementById('points').value, 10);
-    var userId = getUserIdFromToken();
+    const description = document.getElementById('description').value.trim();
+    const points = parseInt(document.getElementById('points').value, 10);
+    const userId = getUserIdFromToken();
 
-    var hasError = false;
+    let hasError = false;
 
     if (!description || description.length < 10) {
       showFieldError('description', 'Description must be at least 10 characters');
@@ -30,7 +30,7 @@ function initCreateChallenge() {
 
     if (hasError) return;
 
-    var btn = form.querySelector('button[type="submit"]');
+    const btn = form.querySelector('button[type="submit"]');
     btn.disabled = true;
     btn.textContent = 'Creating...';
 

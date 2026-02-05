@@ -3,7 +3,7 @@
 
 // validates email format: must contain @ and something after it
 function isValidEmail(email) {
-  var atIndex = email.indexOf('@');
+  const atIndex = email.indexOf('@');
   if (atIndex < 1) return false;
   if (atIndex >= email.length - 1) return false;
   return true;
@@ -12,8 +12,8 @@ function isValidEmail(email) {
 // validates username: 3-20 chars, only letters, numbers, underscore
 function isValidUsername(username) {
   if (username.length < 3 || username.length > 20) return false;
-  for (var i = 0; i < username.length; i++) {
-    var c = username[i];
+  for (let i = 0; i < username.length; i++) {
+    const c = username[i];
     if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c === '_') {
       continue;
     }
@@ -24,15 +24,15 @@ function isValidUsername(username) {
 
 // validates password strength and returns detailed result (no regex)
 function validatePassword(password) {
-  var errors = [];
+  const errors = [];
   if (password.length < 8) errors.push('at least 8 characters');
-  var hasUpper = false;
-  var hasLower = false;
-  var hasNumber = false;
-  var hasSpecial = false;
-  var specialChars = '!@#$%^&*(),.?":{}|<>';
-  for (var i = 0; i < password.length; i++) {
-    var c = password[i];
+  let hasUpper = false;
+  let hasLower = false;
+  let hasNumber = false;
+  let hasSpecial = false;
+  const specialChars = '!@#$%^&*(),.?":{}|<>';
+  for (let i = 0; i < password.length; i++) {
+    const c = password[i];
     if (c >= 'A' && c <= 'Z') hasUpper = true;
     if (c >= 'a' && c <= 'z') hasLower = true;
     if (c >= '0' && c <= '9') hasNumber = true;
@@ -50,17 +50,17 @@ function validatePassword(password) {
 
 // updates password strength indicator
 function updatePasswordStrength(password) {
-  var indicator = document.getElementById('password-strength');
+  const indicator = document.getElementById('password-strength');
   if (!indicator) return;
 
-  var result = validatePassword(password);
-  var strength = 5 - result.errors.length;
+  const result = validatePassword(password);
+  const strength = 5 - result.errors.length;
 
   indicator.classList.remove('hidden');
   indicator.innerHTML = '';
 
-  for (var i = 0; i < 5; i++) {
-    var bar = document.createElement('span');
+  for (let i = 0; i < 5; i++) {
+    const bar = document.createElement('span');
     bar.className = 'strength-bar';
     if (i < strength) {
       if (strength <= 2) bar.classList.add('weak');
@@ -70,7 +70,7 @@ function updatePasswordStrength(password) {
     indicator.appendChild(bar);
   }
 
-  var label = document.createElement('span');
+  const label = document.createElement('span');
   label.className = 'strength-label';
   if (strength <= 2) label.textContent = 'Weak';
   else if (strength <= 4) label.textContent = 'Medium';
@@ -80,13 +80,13 @@ function updatePasswordStrength(password) {
 
 // real-time validation for register form
 function initRegisterValidation() {
-  var usernameInput = document.getElementById('username');
-  var emailInput = document.getElementById('email');
-  var passwordInput = document.getElementById('password');
+  const usernameInput = document.getElementById('username');
+  const emailInput = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
 
   if (usernameInput) {
     usernameInput.addEventListener('blur', function () {
-      var val = usernameInput.value.trim();
+      const val = usernameInput.value.trim();
       if (val && !isValidUsername(val)) {
         showFieldError('username', 'Username must be 3-20 characters, letters, numbers, underscores only');
       } else {
@@ -100,7 +100,7 @@ function initRegisterValidation() {
 
   if (emailInput) {
     emailInput.addEventListener('blur', function () {
-      var val = emailInput.value.trim();
+      const val = emailInput.value.trim();
       if (val && !isValidEmail(val)) {
         showFieldError('email', 'Please enter a valid email address');
       } else {
@@ -117,7 +117,7 @@ function initRegisterValidation() {
       updatePasswordStrength(passwordInput.value);
     });
     passwordInput.addEventListener('blur', function () {
-      var result = validatePassword(passwordInput.value);
+      const result = validatePassword(passwordInput.value);
       if (passwordInput.value && !result.valid) {
         showFieldError('password', 'Password needs: ' + result.errors.join(', '));
       } else {

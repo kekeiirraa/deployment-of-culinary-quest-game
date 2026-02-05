@@ -1,7 +1,7 @@
 // ca2 frontend - register form handling and real-time validation
 
 function initRegisterForm() {
-  var form = document.getElementById('register-form');
+  const form = document.getElementById('register-form');
   if (!form) return;
 
   initRegisterValidation();
@@ -11,11 +11,11 @@ function initRegisterForm() {
     hideMessage('message');
     clearAllFieldErrors();
 
-    var username = document.getElementById('username').value.trim();
-    var email = document.getElementById('email').value.trim();
-    var password = document.getElementById('password').value;
+    const username = document.getElementById('username').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
 
-    var hasError = false;
+    let hasError = false;
 
     if (!username) {
       showFieldError('username', 'Username is required');
@@ -37,7 +37,7 @@ function initRegisterForm() {
       showFieldError('password', 'Password is required');
       hasError = true;
     } else {
-      var pwResult = validatePassword(password);
+      const pwResult = validatePassword(password);
       if (!pwResult.valid) {
         showFieldError('password', 'Password needs: ' + pwResult.errors.join(', '));
         hasError = true;
@@ -46,7 +46,7 @@ function initRegisterForm() {
 
     if (hasError) return;
 
-    var btn = form.querySelector('button[type="submit"]');
+    const btn = form.querySelector('button[type="submit"]');
     btn.disabled = true;
     btn.textContent = 'Creating account...';
 

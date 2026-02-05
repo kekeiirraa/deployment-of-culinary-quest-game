@@ -1,7 +1,7 @@
 // ca2 frontend - login form handling
 
 function initLoginForm() {
-  var form = document.getElementById('login-form');
+  const form = document.getElementById('login-form');
   if (!form) return;
 
   form.addEventListener('submit', function (e) {
@@ -9,10 +9,10 @@ function initLoginForm() {
     hideMessage('message');
     clearAllFieldErrors();
 
-    var identifier = document.getElementById('identifier').value.trim();
-    var password = document.getElementById('password').value;
+    const identifier = document.getElementById('identifier').value.trim();
+    const password = document.getElementById('password').value;
 
-    var hasError = false;
+    let hasError = false;
 
     if (!identifier) {
       showFieldError('identifier', 'Please enter your username or email');
@@ -26,7 +26,7 @@ function initLoginForm() {
 
     if (hasError) return;
 
-    var btn = form.querySelector('button[type="submit"]');
+    const btn = form.querySelector('button[type="submit"]');
     btn.disabled = true;
     btn.textContent = 'Logging in...';
 

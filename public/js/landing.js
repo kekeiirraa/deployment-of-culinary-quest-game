@@ -2,11 +2,11 @@
 // show guest section (log in, register) or logged section (dashboard link) and nav based on token
 
 function initIndex() {
-  var token = getToken();
-  var guestSection = document.getElementById('guest-section');
-  var loggedSection = document.getElementById('logged-section');
-  var guestNav = document.getElementById('guest-nav');
-  var loggedNav = document.getElementById('logged-nav');
+  const token = getToken();
+  const guestSection = document.getElementById('guest-section');
+  const loggedSection = document.getElementById('logged-section');
+  const guestNav = document.getElementById('guest-nav');
+  const loggedNav = document.getElementById('logged-nav');
 
   if (token && loggedSection) {
     if (guestSection) guestSection.classList.add('hidden');

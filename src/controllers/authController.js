@@ -6,7 +6,7 @@ const usersModels = require('../models/usersModels');
 
 // validates email format: must contain @ and something after it
 function isValidEmail(email) {
-  var atIndex = email.indexOf('@');
+  const atIndex = email.indexOf('@');
   if (atIndex < 1) return false;
   if (atIndex >= email.length - 1) return false;
   return true;
@@ -15,13 +15,13 @@ function isValidEmail(email) {
 // validates password strength (no regex, simple loops)
 function isValidPassword(password) {
   if (password.length < 8) return { valid: false, message: 'Password must be at least 8 characters' };
-  var hasUpper = false;
-  var hasLower = false;
-  var hasNumber = false;
-  var hasSpecial = false;
-  var specialChars = '!@#$%^&*(),.?":{}|<>';
-  for (var i = 0; i < password.length; i++) {
-    var c = password[i];
+  let hasUpper = false;
+  let hasLower = false;
+  let hasNumber = false;
+  let hasSpecial = false;
+  const specialChars = '!@#$%^&*(),.?":{}|<>';
+  for (let i = 0; i < password.length; i++) {
+    const c = password[i];
     if (c >= 'A' && c <= 'Z') hasUpper = true;
     if (c >= 'a' && c <= 'z') hasLower = true;
     if (c >= '0' && c <= '9') hasNumber = true;
@@ -37,8 +37,8 @@ function isValidPassword(password) {
 // validates username: 3-20 chars, only letters, numbers, underscore
 function isValidUsername(username) {
   if (username.length < 3 || username.length > 20) return false;
-  for (var i = 0; i < username.length; i++) {
-    var c = username[i];
+  for (let i = 0; i < username.length; i++) {
+    const c = username[i];
     if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c === '_') continue;
     return false;
   }

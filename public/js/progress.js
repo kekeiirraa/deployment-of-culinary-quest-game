@@ -3,7 +3,7 @@
 // run when progress page loads: require login, then load summary and completed challenges
 function initProgress() {
   if (!requireAuth()) return;
-  var userId = getUserIdFromToken();
+  const userId = getUserIdFromToken();
   loadProgressSummary(userId);
   loadCompletedChallenges(userId);
   initLogout();
@@ -11,7 +11,7 @@ function initProgress() {
 
 // fetch and display progress summary
 function loadProgressSummary(userId) {
-  var container = document.getElementById('summary-content');
+  const container = document.getElementById('summary-content');
   if (!container) return;
 
   fetch(API_BASE + '/games/profile/' + userId, authHeaders())
@@ -36,7 +36,7 @@ function loadProgressSummary(userId) {
 
 // fetch and display user's completed challenges
 function loadCompletedChallenges(userId) {
-  var container = document.getElementById('completed-challenges-container');
+  const container = document.getElementById('completed-challenges-container');
   if (!container) return;
 
   fetch(API_BASE + '/games/user/' + userId + '/challenges', authHeaders())
@@ -47,11 +47,11 @@ function loadCompletedChallenges(userId) {
         return;
       }
       container.innerHTML = '<div class="completed-list"></div>';
-      var list = container.querySelector('.completed-list');
+      const list = container.querySelector('.completed-list');
       challenges.forEach(function (c) {
-        var item = document.createElement('div');
+        const item = document.createElement('div');
         item.className = 'completed-item';
-        var date = new Date(c.completed_at).toLocaleDateString();
+        const date = new Date(c.completed_at).toLocaleDateString();
         item.innerHTML =
           '<div class="completed-desc">' + c.challenge + '</div>' +
           '<div class="completed-meta">' +

@@ -3,7 +3,7 @@
 
 function initPantry() {
   if (!requireAuth()) return;
-  var container = document.getElementById('pantry-ingredients-container');
+  const container = document.getElementById('pantry-ingredients-container');
   if (!container) return;
 
   // placeholder: no pantry API yet - show message and sample ingredients

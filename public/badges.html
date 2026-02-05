@@ -24,8 +24,17 @@
   </header>
 
   <main class="badges-main">
-    <h1>&#127942; Chef's Achievements</h1>
+    <h1>Chef's Achievements</h1>
     <p class="subtitle">Earn badges by completing challenges and reaching milestones</p>
+
+    <!-- chef ranks: all 5 ranks with images, show which one the player is at -->
+    <section id="chef-ranks-section" class="card achievements-section">
+      <h3>Chef Ranks</h3>
+      <p class="muted">Progress through ranks by earning points. Your current rank is highlighted.</p>
+      <div id="chef-ranks-container" class="chef-ranks-grid">
+        <p class="loading">Loading ranks...</p>
+      </div>
+    </section>
 
     <!-- culinary badges (earned) -->
     <section id="earned-badges" class="card achievements-section">
