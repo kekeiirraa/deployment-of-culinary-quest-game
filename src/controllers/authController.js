@@ -1,6 +1,6 @@
 // auth controller: register and login for ca2
-// uses bcrypt for password hashing and jwt for session tokens
-// includes server-side validation for email and password
+// uses bcrypt for password hashing (done in middleware) and jwt for session tokens
+// includes server-side validation for username, email format, and password strength
 
 const usersModels = require('../models/usersModels');
 

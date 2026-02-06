@@ -1,6 +1,7 @@
 // ca2 frontend - message and field error display helpers
+// these functions update the dom to show or hide success/error messages and field-level errors
 
-// show error message in element (pass the id of the element)
+// show error message in element (pass the id of the element, e.g. "message")
 function showError(id, text) {
   const msgBox = document.getElementById(id);
   if (msgBox === null) return;
@@ -9,7 +10,7 @@ function showError(id, text) {
   msgBox.classList.remove('hidden');
 }
 
-// show success message
+// show success message in element
 function showSuccess(id, text) {
   const msgBox = document.getElementById(id);
   if (msgBox === null) return;
@@ -18,13 +19,13 @@ function showSuccess(id, text) {
   msgBox.classList.remove('hidden');
 }
 
-// hide message element
+// hide the message element by adding "hidden" class
 function hideMessage(id) {
   const msgBox = document.getElementById(id);
   if (msgBox !== null) msgBox.classList.add('hidden');
 }
 
-// show field-level error
+// show error under a form field (e.g. fieldId "username" looks for id "username-error" and adds "input-error" to input)
 function showFieldError(fieldId, text) {
   const errBox = document.getElementById(fieldId + '-error');
   if (errBox !== null) {
@@ -35,7 +36,7 @@ function showFieldError(fieldId, text) {
   if (inputBox !== null) inputBox.classList.add('input-error');
 }
 
-// hide field-level error
+// hide the error for a field and remove input-error class from the input
 function hideFieldError(fieldId) {
   const errBox = document.getElementById(fieldId + '-error');
   if (errBox !== null) errBox.classList.add('hidden');
@@ -43,7 +44,7 @@ function hideFieldError(fieldId) {
   if (inputBox !== null) inputBox.classList.remove('input-error');
 }
 
-// clear all field errors
+// clear all field errors on the page (used before submitting form again)
 function clearAllFieldErrors() {
   const allErrors = document.querySelectorAll('.field-error');
   for (let i = 0; i < allErrors.length; i++) {

@@ -1,4 +1,5 @@
 // ca2 frontend - chef's cookbook page (unlocked / locked recipes)
+// fetches user recipes with unlock status from backend and shows unlocked vs locked sections
 
 function initRecipeBook() {
   if (!requireAuth()) return;
@@ -6,6 +7,7 @@ function initRecipeBook() {
   loadUserRecipes(userId);
 }
 
+// fetch recipes with unlocked flag for this user and fill unlocked/locked containers
 function loadUserRecipes(userId) {
   const unlockedContainer = document.getElementById('unlocked-recipes-container');
   const lockedContainer = document.getElementById('locked-recipes-container');
@@ -36,7 +38,8 @@ function loadUserRecipes(userId) {
       }
     })
     .catch(function () {
-      unlockedContainer.innerHTML = '<p class="error">Failed to load recipes</p>';
+      unlockedContainer.innerHTML = '<p class="muted">Complete more activities to unlock recipes. Earn points by completing Kitchen Quests.</p>' +
+        '<p><a href="challenges.html" class="btn-secondary">Go to Kitchen Quests</a></p>';
       if (lockedContainer) lockedContainer.innerHTML = '';
     });
 }

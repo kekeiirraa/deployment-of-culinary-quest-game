@@ -1,24 +1,26 @@
 *** Culinary Adventure Quest - Wellness Challenge API ***
 
-A gamified wellness challenge system where players complete cooking-themed wellness activities to earn points and level up through chef ranks.
+A gamified wellness challenge system where players complete cooking-themed wellness activities to earn points, level up through chef ranks and unlock healthy recipes. 
 
 *** Overview ***
 
-Culinary Adventure Quest transforms wellness activities into cooking challenges. Players complete wellness tasks framed as culinary quests (e.g., "Hydrate like a chef", "Walk to the market") to earn points and progress through chef ranks from Kitchen Novice to Grand Gastromancer.
+Culinary Adventure Quest transforms wellness activities into cooking challenges. Players complete wellness tasks framed as culinary quests (e.g., "Hydrate like a chef", "Walk to the market") to earn points and progress through chef ranks from Kitchen Novice(lowest) to Grand Gastromancer(highest).
+
 
 *** CA2 – Login & Register ***
 
 - **Frontend**: Simple, user-friendly login and register pages in the `public` folder (HTML, CSS, JS). Served at the root when you run the server.
+- **Typography**: Site-wide font is **Google Font – Schoolbell** (landing page, forms, and all app pages).
+- **Logo**: The top-left of the nav bar uses the image `public/images/weblogo.png` as the site logo (no text; image only).
 - **Auth**: JWT for session management; bcrypt for password hashing on the backend.
 - **Pages**: 
   - `index.html` – Home page with login/register links
   - `login.html` – Log in with username OR email
   - `register.html` – Sign up with username, email, password
-  - `dashboard.html` – Dashboard with profile, leaderboard, Chef's Recipe Book, Pantry Quick View
+  - `dashboard.html` – Dashboard with profile, leaderboard, Chef's Recipe Book
   - `challenges.html` – **Kitchen Quests**: all challenges with category tabs (Kitchen Prep, Market Run, Chef's Rest, Recipe Research, Seasonal Specials)
-  - `recipe-book.html` – **Chef's Cookbook**: unlocked/locked recipes, "Recipes I Can Make Now"
-  - `pantry.html` – **Chef's Pantry**: ingredients (placeholder for future crafting)
-  - `progress.html` – **My Culinary Journey**: progress overview, completed quests, links to Pantry/Recipe Book/Badges
+  - `recipe-book.html` – **Chef's Cookbook**: unlocked/locked recipes (unlock by earning points)
+  - `progress.html` – **My Culinary Journey**: progress overview, completed quests, links to Recipe Book/Badges
   - `create-challenge.html` – **Create Kitchen Quest**: form with Quest Category, Suggested Cooking Time
   - `badges.html` – **Chef's Achievements**: earned and available badges
 
@@ -47,9 +49,9 @@ Culinary Adventure Quest transforms wellness activities into cooking challenges.
 - **Points System**: All challenges award points based on difficulty
 
 **Recipe Unlock System** (game feature):
-- Users unlock virtual recipes as they earn points (e.g. 50 pts → Beginner Smoothie, 150 → Protein Power Bowl, 300 → Master Chef Salad).
-- Recipe cards "light up" when unlocked (cooking animation); locked recipes show unlock threshold.
-- Dashboard shows Chef's Recipe Book snippet; full list on Recipe Book page.
+- Users unlock virtual recipes by earning points (e.g. 50 pts → Beginner Smoothie, 150 → Protein Power Bowl, 300 → Master Chef Salad).
+- Recipe cards "light up" when unlocked; locked recipes show unlock threshold.
+- Dashboard shows Chef's Recipe Book snippet; full list on Recipe Book page. No ingredients or pantry—unlock is points-only.
 
 **Challenge Categories** (cooking themes):
 - **Kitchen Prep** – Morning routines (hydration, stretching)
@@ -58,6 +60,7 @@ Culinary Adventure Quest transforms wellness activities into cooking challenges.
 - **Recipe Research** – Learning/reading challenges
 - **Seasonal Specials** – Time-limited quests
 - Kitchen Quests page has category tabs; filtering is by keyword in description until challenges have category_id in DB.
+
 
 *** Validation ***
 
@@ -100,21 +103,7 @@ Culinary Adventure Quest transforms wellness activities into cooking challenges.
 * Root and frontend
 - GET / – Serves the frontend (index.html). Use this in the browser to access login/register pages.
 - GET /api – API information (json)
-  - Response:
-    ```json
-    {
-      "message": "Culinary Adventure Wellness Game API",
-      "version": "1.0.0",
-      "endpoints": {
-        "auth": "/auth",
-        "users": "/users",
-        "challenges": "/challenges",
-        "completions": "/completions",
-        "games": "/games"
-      }
-    }
-    ```
-
+  
 ---
 
 ** AUTH (CA2) **
@@ -139,305 +128,62 @@ Culinary Adventure Quest transforms wellness activities into cooking challenges.
 
 * Create User 
 - POST /users
-  - Request Body:
-    ```json
-    {
-      "username": "chef_alice"
-    }
-    ```
-  - Success Response (201):
-    ```json
-    {
-      "user_id": 1,
-      "username": "chef_alice",
-      "points": 0,
-      "rank": "Kitchen Novice"
-    }
-    ```
-  - Error Responses:
-    - 400: Username is required
-    - 409: Username already exists
-    - 500: Failed to create user
 
 * Get All Users
 - GET /users
-  - Success Response (200):
-    ```json
-    [
-      {
-        "user_id": 1,
-        "username": "chef_alice",
-        "points": 150
-      },
-      {
-        "user_id": 2,
-        "username": "baking_lover",
-        "points": 75
-      }
-    ]
-    ```
 
 * Get User by ID
 - GET /users/:id
-  - Success Response (200):
-    ```json
-    {
-      "user_id": 1,
-      "username": "chef_alice",
-      "points": 150
-    }
-    ```
-  - Error Responses:
-    - 404: User not found
-    - 500: Database error
-
+  
 * Update User
 - PUT /users/:id
-  - Request Body:
-    ```json
-    {
-      "username": "chef_alice_updated",
-      "points": 200
-    }
-    ```
-  - Success Response (200):
-    ```json
-    {
-      "user_id": 1,
-      "username": "chef_alice_updated",
-      "points": 200
-    }
-    ```
-  - Error Responses:
-    - 400: Username and points are required
-    - 404: User not found
-    - 409: Username already exists
-    - 500: Database error
-
 ---
+
 
 ** CHALLENGES **
 
 * Create Challenge
 - POST /challenges
-  - Request Body:
-    ```json
-    {
-      "description": "Rest well to cook well – Get 7+ hours of sleep for better kitchen focus",
-      "user_id": 1,
-      "points": 50
-    }
-    ```
-  - Important: Challenges must be cooking-themed! Include culinary terms like "chef", "kitchen", "cook", "culinary", "market", "ingredients", etc.
-  - Success Response (201):
-    ```json
-    {
-      "challenge_id": 1,
-      "challenge": "Rest well to cook well – Get 7+ hours of sleep for better kitchen focus",
-      "creator_id": 1,
-      "points": 50
-    }
-    ```
-  - Error Responses:
-    - 400: Description, user_id, and points are required
-    - 400: Challenge must be cooking-themed (validation error)
-    - 500: Failed to create challenge
 
 * Get All Challenges
 - GET /challenges
-  - Success Response (200):
-    ```json
-    [
-      {
-        "challenge_id": 1,
-        "challenge": "Hydrate like a chef – Drink 8 glasses of water to stay sharp in the kitchen",
-        "creator_id": 1,
-        "points": 10
-      },
-      {
-        "challenge_id": 2,
-        "challenge": "Walk to the market – Take 10,000 steps to gather fresh ingredients",
-        "creator_id": 1,
-        "points": 15
-      }
-    ]
-    ```
-
+  
 * Update Challenge
 - PUT /challenges/:id
-  - Request Body:
-    ```json
-    {
-      "user_id": 1,
-      "description": "Updated challenge description",
-      "points": 60
-    }
-    ```
-  - Success Response (200):
-    ```json
-    {
-      "challenge_id": 1,
-      "challenge": "Updated challenge description",
-      "creator_id": 1,
-      "points": 60
-    }
-    ```
-  - Error Responses:
-    - 400: Description (or question), user_id, and points are required
-    - 403: Forbidden - Not the challenge owner
-    - 404: Challenge not found
-    - 500: Database error
 
 * Delete Challenge
 - DELETE /challenges/:id
-  - Success Response (204): No content
-  - Error Responses:
-    - 404: Challenge not found
-    - 500: Failed to delete challenge
-
 ---
+
 
 ** COMPLETIONS **
 
 * Complete a Challenge
 - POST /challenges/:challenge_id/completions
-  - Request Body:
-    ```json
-    {
-      "user_id": 1,
-      "details": "Slept 8 hours last night! Ready to cook like a master chef today!"
-    }
-    ```
-  - Success Response (201):
-    ```json
-    {
-      "complete_id": 1,
-      "challenge_id": 1,
-      "user_id": 1,
-      "details": "Slept 8 hours last night! Ready to cook like a master chef today!"
-    }
-    ```
-  - Note: Points are automatically added to the user's total
-  - Error Responses:
-    - 400: user_id is required
-    - 404: Challenge not found
-    - 404: User not found
-    - 500: Database error
 
 * Get Completions by Challenge
 - GET /challenges/:challenge_id/completions
-  - Success Response (200):
-    ```json
-    [
-      {
-        "user_id": 1,
-        "details": "Slept 8 hours last night!"
-      },
-      {
-        "user_id": 2,
-        "details": "Got 7.5 hours of sleep"
-      }
-    ]
-    ```
-  - Error Responses:
-    - 404: No completions found for this challenge
-    - 500: Database error
-
 ---
+
 
 ** GAMES **
 
 * Get User Profile
 - GET /games/profile/:userId
-  - Success Response (200):
-    ```json
-    {
-      "user_id": 1,
-      "username": "chef_alice",
-      "rank": "Apprentice Chef",
-      "points": 150,
-      "challenges_completed": 5,
-      "next_rank": "Sous Chef at 300 points"
-    }
-    ```
-  - Error Responses:
-    - 404: User not found
-    - 500: Database error
 
 * Get Leaderboard
 - GET /games/leaderboard
-  - Success Response (200):
-    ```json
-    {
-      "leaderboard": [
-        {
-          "user_id": 1,
-          "username": "chef_alice",
-          "points": 500
-        },
-        {
-          "user_id": 2,
-          "username": "baking_lover",
-          "points": 300
-        }
-      ],
-      "updated": "12/15/2024, 3:45:30 PM"
-    }
-    ```
-  - Note: Returns top 10 users by points
 
 * Get User's Completed Challenges (CA2)
 - GET /games/user/:userId/challenges
-  - Success Response (200):
-    ```json
-    [
-      {
-        "challenge_id": 1,
-        "challenge": "Hydrate like a chef – Drink 8 glasses of water",
-        "points": 10,
-        "completed_at": "2024-01-15T10:30:00.000Z",
-        "details": "Completed via web app"
-      }
-    ]
-    ```
-  - Error Responses:
-    - 500: Database error
 
 * Get User's Earned Badges (CA2)
 - GET /games/user/:userId/badges
-  - Success Response (200):
-    ```json
-    [
-      {
-        "badge_id": 1,
-        "badge_name": "First Challenge",
-        "description": "Complete your first wellness challenge",
-        "earned_date": "2024-01-15T10:30:00.000Z"
-      }
-    ]
-    ```
-  - Error Responses:
-    - 500: Database error
 
 * Get All Available Badges (CA2)
 - GET /games/badges
-  - Success Response (200):
-    ```json
-    [
-      {
-        "badge_id": 1,
-        "badge_name": "First Challenge",
-        "description": "Complete your first wellness challenge"
-      },
-      {
-        "badge_id": 2,
-        "badge_name": "Water Master",
-        "description": "Master of hydration challenges"
-      }
-    ]
-    ```
-
 ---
+
 
 ## Chef Ranks
 
@@ -501,4 +247,3 @@ All endpoints return appropriate HTTP status codes:
 
 ## ERD Changes 
 The database structure was updated to better support user management, security, and data tracking. The User table was enhanced by adding email and password fields to allow proper authentication and ensure each user is uniquely identifiable. Primary keys were updated to use auto-increment for easier record management, and timestamp defaults were added to tables such as UserCompletion, UserBadges, and UserRecipes to automatically track when actions occur. The overall relationships between users, challenges, badges, recipes, and ranks remain the same, but the updated schema improves data integrity, scalability, and real-world usability.
-

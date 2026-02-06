@@ -1,5 +1,5 @@
 // jwt middleware for ca2: generate, send, and verify tokens
-// used for session management after login
+// used for session management so user stays logged in; token is sent to frontend after login
 
 require('dotenv').config();
 const jwt = require('jsonwebtoken');

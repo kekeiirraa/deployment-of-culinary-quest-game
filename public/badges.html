@@ -9,17 +9,42 @@
 </head>
 
 <body>
+  <header class="mobile-header" aria-label="Mobile menu">
+    <button type="button" class="hamburger-btn" aria-label="Open menu" id="hamburger-btn">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+    <a href="index.html" class="mobile-logo" aria-label="Home"><img src="images/weblogo.png" alt=""
+        class="logo-img"></a>
+  </header>
+  <div class="mobile-drawer" id="mobile-drawer">
+    <div class="mobile-drawer-overlay" id="drawer-overlay"></div>
+    <div class="mobile-drawer-panel">
+      <button type="button" class="drawer-close" aria-label="Close menu">&times;</button>
+      <nav class="mobile-drawer-nav">
+        <a href="dashboard.html">&#127968; Dashboard</a>
+        <a href="challenges.html">&#128203; Kitchen Quests</a>
+        <a href="recipe-book.html">&#128214; Recipe Book</a>
+        <a href="create-challenge.html">&#128296; Create Quest</a>
+        <a href="progress.html">&#128200; My Journey</a>
+        <a href="badges.html" class="active">&#127942; Achievements</a>
+        <button type="button" class="logout-btn drawer-logout">Log out</button>
+      </nav>
+    </div>
+  </div>
+
   <header class="top-nav">
-    <a href="index.html" class="logo">Culinary Quest</a>
+    <a href="index.html" class="logo" aria-label="Culinary Quest"><img src="images/weblogo.png" alt=""
+        class="logo-img"></a>
     <nav class="nav-links">
       <a href="dashboard.html">&#127968; Dashboard</a>
       <a href="challenges.html">&#128203; Kitchen Quests</a>
       <a href="recipe-book.html">&#128214; Recipe Book</a>
-      <a href="pantry.html">&#128451; My Pantry</a>
       <a href="create-challenge.html">&#128296; Create Quest</a>
       <a href="progress.html">&#128200; My Journey</a>
       <a href="badges.html" class="active">&#127942; Achievements</a>
-      <button id="logout-btn" class="btn-link">Log out</button>
+      <button type="button" class="logout-btn btn-link">Log out</button>
     </nav>
   </header>
 
@@ -47,7 +72,7 @@
     <!-- all available badges -->
     <section id="all-badges" class="card achievements-section">
       <h3>&#128218; All Available Badges</h3>
-      <p class="muted">Recipe Mastery, Ingredient Collector, Challenge Completer, and Rank Milestones.</p>
+      <p class="muted">Recipe Mastery, Challenge Completer, and Rank Milestones.</p>
       <div id="all-badges-container" class="badges-grid">
         <p class="loading">Loading badges...</p>
       </div>
@@ -64,10 +89,12 @@
 
   <script src="js/api.js"></script>
   <script src="js/utils.js"></script>
+  <script src="js/mobile-nav.js"></script>
   <script src="js/badges.js"></script>
   <script>
     initBadges();
     initLogout();
+    initMobileNav();
   </script>
 </body>
 

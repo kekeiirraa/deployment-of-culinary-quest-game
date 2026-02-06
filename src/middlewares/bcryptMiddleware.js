@@ -1,5 +1,5 @@
 // bcrypt middleware for ca2: hash and compare passwords
-// used by auth routes for secure registration and login
+// hash used when registering (store hash in db); compare used when logging in to check password
 
 const bcrypt = require('bcrypt');
 

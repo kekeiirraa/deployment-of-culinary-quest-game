@@ -1,9 +1,11 @@
 // ca2 frontend - register form handling and real-time validation
+// when user submits we validate then send username, email, password to backend; backend hashes password and creates user
 
 function initRegisterForm() {
   const form = document.getElementById('register-form');
   if (!form) return;
 
+  // turn on live validation (blur and input) for username, email, password
   initRegisterValidation();
 
   form.addEventListener('submit', function (e) {
@@ -17,6 +19,7 @@ function initRegisterForm() {
 
     let hasError = false;
 
+    // client-side checks before sending to server
     if (!username) {
       showFieldError('username', 'Username is required');
       hasError = true;
@@ -24,7 +27,6 @@ function initRegisterForm() {
       showFieldError('username', 'Username must be 3-20 characters, letters, numbers, underscores only');
       hasError = true;
     }
-
     if (!email) {
       showFieldError('email', 'Email is required');
       hasError = true;
@@ -32,7 +34,6 @@ function initRegisterForm() {
       showFieldError('email', 'Please enter a valid email address');
       hasError = true;
     }
-
     if (!password) {
       showFieldError('password', 'Password is required');
       hasError = true;
@@ -43,13 +44,13 @@ function initRegisterForm() {
         hasError = true;
       }
     }
-
     if (hasError) return;
 
     const btn = form.querySelector('button[type="submit"]');
     btn.disabled = true;
     btn.textContent = 'Creating account...';
 
+    // send register request; backend hashes password with bcrypt then saves user
     fetch(API_BASE + '/auth/register', authHeaders({ username: username, email: email, password: password }))
       .then(function (res) {
         return res.json().then(function (data) {

@@ -1,4 +1,5 @@
 // ca2 frontend - progress page (track completed challenges and points)
+// fetches profile (points, rank) and completed challenges from backend and displays them
 
 // run when progress page loads: require login, then load summary and completed challenges
 function initProgress() {
@@ -34,7 +35,7 @@ function loadProgressSummary(userId) {
     });
 }
 
-// fetch and display user's completed challenges
+// fetch list of challenges user has completed and display with date and points
 function loadCompletedChallenges(userId) {
   const container = document.getElementById('completed-challenges-container');
   if (!container) return;

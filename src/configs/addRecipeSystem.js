@@ -91,11 +91,20 @@ function seedData(cb) {
       (4, 'Whole Grains', '🌾', 'grain'),
       (5, 'Chef''s Spirit', '✨', 'special')`, (err2) => {
       if (err2) return cb(err2);
-      // ensure recipes exist with required_points 50, 150, 300
+      // ensure recipes exist with varied required_points so users can choose what to unlock
       connection.query(`INSERT INTO Recipes (recipe_id, recipe_name, description, required_points) VALUES
         (1, 'Beginner Smoothie', 'A refreshing fruit blend to start your day like a chef', 50),
         (2, 'Protein Power Bowl', 'Hearty bowl with greens and protein for sustained energy', 150),
-        (3, 'Master Chef Salad', 'Elevated salad with grains and chef-style flair', 300)
+        (3, 'Master Chef Salad', 'Elevated salad with grains and chef-style flair', 300),
+        (4, 'Morning Oat Bites', 'Quick oat and honey bites for a healthy start', 25),
+        (5, 'Green Detox Juice', 'Leafy greens and apple for a clean energy boost', 75),
+        (6, 'Avocado Toast Deluxe', 'Creamy avocado on whole grain with a chef twist', 100),
+        (7, 'Mediterranean Bowl', 'Olives, feta, and fresh veggies for a light meal', 125),
+        (8, 'Stir-Fry Hero', 'Colorful veggies and protein in a savory sauce', 200),
+        (9, 'Chef''s Soup of the Day', 'Hearty soup that changes with the season', 250),
+        (10, 'Grain Buddha Bowl', 'Quinoa, roasted veg, and tahini for a full meal', 400),
+        (11, 'Signature Pasta', 'House-made style pasta with seasonal ingredients', 500),
+        (12, 'Grand Tasting Menu', 'A multi-course chef experience for top achievers', 600)
         ON DUPLICATE KEY UPDATE recipe_name = VALUES(recipe_name), description = VALUES(description), required_points = VALUES(required_points)`, (err4) => {
         if (err4) console.warn('Recipe seed warning:', err4.message);
         cb(null);

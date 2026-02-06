@@ -1,6 +1,7 @@
 // ca2 frontend - badges page (earned badges, all badges, chef ranks)
+// fetches profile for current rank, earned badges, and all available badges from backend
 
-// all 5 chef ranks with image filenames and point thresholds
+// all 5 chef ranks with image filenames and point thresholds (used to show rank cards)
 const CHEF_RANKS = [
   { name: 'Kitchen Novice', points: 0, ability: 'Basic cooking tools', image: 'kitchennovice.png' },
   { name: 'Apprentice Chef', points: 100, ability: 'Unlock recipe creation', image: 'apprenticechef.png' },

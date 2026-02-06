@@ -1,6 +1,9 @@
 /* culinary adventure quest - ca2 frontend styles */
 /* we do not use bootstrap - layout is custom css with flexbox and grid (no col-xl-2 etc) */
 /* warm food theme with background image and #f8eee2 */
+/* typography: Google Font Schoolbell applied site-wide (landing, forms, app) */
+
+@import url('https://fonts.googleapis.com/css2?family=Schoolbell&display=swap');
 
 /* reset: make padding and border count inside width */
 * {
@@ -9,7 +12,7 @@
 
 /* default body style */
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Schoolbell', cursive;
   margin: 0;
   min-height: 100vh;
   background: #f8eee2;
@@ -20,7 +23,7 @@ body {
 /* path is relative to this css file (css/style.css) so image = public/images/foodbg.png */
 body.auth-page {
   background-color: #f8eee2;
-  background-image: url('../images/foodbg.png');
+  background-image: url('../images/foodbg.jpg');
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -67,10 +70,17 @@ body.auth-page.landing-page {
 }
 
 .landing-logo {
-  font-weight: 700;
-  font-size: 1.1rem;
-  color: #f8eee2;
+  display: flex;
+  align-items: center;
   text-decoration: none;
+  flex-shrink: 0;
+}
+
+.landing-logo-img {
+  height: 2.75rem;
+  width: auto;
+  display: block;
+  vertical-align: middle;
 }
 
 .landing-nav-links {
@@ -360,12 +370,11 @@ main {
   margin: 2rem auto;
 }
 
-/* dashboard, challenges, progress, recipe-book, pantry layout */
+/* dashboard, challenges, progress, recipe-book layout */
 .dashboard-main,
 .challenges-main,
 .progress-main,
-.recipe-book-main,
-.pantry-main {
+.recipe-book-main {
   max-width: 900px;
   width: 100%;
   padding: 1.5rem;
@@ -441,11 +450,17 @@ h3 {
 }
 
 .top-nav .logo {
-  font-weight: 700;
-  font-size: 1rem;
-  color: #f8eee2;
+  display: flex;
+  align-items: center;
   text-decoration: none;
   flex-shrink: 0;
+}
+
+.top-nav .logo-img {
+  height: 2.5rem;
+  width: auto;
+  display: block;
+  vertical-align: middle;
 }
 
 .top-nav .nav-links {
@@ -506,6 +521,17 @@ label {
   margin-bottom: 0.35rem;
 }
 
+/* all form controls use site font (Schoolbell) so dropdowns and inputs match */
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+select,
+button,
+textarea {
+  font-family: 'Schoolbell', cursive;
+}
+
 input[type="text"],
 input[type="password"],
 input[type="email"] {
@@ -533,6 +559,24 @@ input:focus {
 input.input-error {
   border-color: #c0392b;
   box-shadow: 0 0 0 2px rgba(192, 57, 43, 0.15);
+}
+
+/* select dropdowns: same look and font as inputs */
+select {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #c4a574;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #f8eee2;
+  color: #4a3728;
+  cursor: pointer;
+}
+
+select:focus {
+  outline: none;
+  border-color: #5c4033;
+  box-shadow: 0 0 0 2px rgba(92, 64, 51, 0.2);
 }
 
 /* field-level errors */
@@ -1031,30 +1075,172 @@ button:disabled {
   margin-bottom: 0.15rem;
 }
 
+/* mobile header and drawer: hidden on desktop */
+.mobile-header {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 101;
+  background: #5c4033;
+  color: #f8eee2;
+  padding: 0.5rem 1rem;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.hamburger-btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #f8eee2;
+}
+
+.hamburger-line {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 1px;
+}
+
+.mobile-logo .logo-img {
+  height: 2rem;
+  width: auto;
+}
+
+.mobile-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 102;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.mobile-drawer.open {
+  pointer-events: auto;
+  visibility: visible;
+}
+
+.mobile-drawer-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.mobile-drawer.open .mobile-drawer-overlay {
+  opacity: 1;
+}
+
+.mobile-drawer-panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 280px;
+  max-width: 85vw;
+  height: 100%;
+  background: #5c4033;
+  color: #f8eee2;
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+  transform: translateX(-100%);
+  transition: transform 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  padding-top: 1rem;
+}
+
+.mobile-drawer.open .mobile-drawer-panel {
+  transform: translateX(0);
+}
+
+.drawer-close {
+  align-self: flex-end;
+  margin-right: 1rem;
+  margin-bottom: 0.5rem;
+  width: 44px;
+  height: 44px;
+  font-size: 1.75rem;
+  line-height: 1;
+  background: transparent;
+  border: none;
+  color: #f8eee2;
+  cursor: pointer;
+}
+
+.mobile-drawer-nav {
+  display: flex;
+  flex-direction: column;
+  padding: 0 1rem 1rem;
+}
+
+.mobile-drawer-nav a,
+.mobile-drawer-nav .drawer-logout {
+  display: block;
+  padding: 0.75rem 0;
+  color: rgba(248, 238, 226, 0.95);
+  text-decoration: none;
+  font-size: 1rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: 'Schoolbell', cursive;
+  border-bottom: 1px solid rgba(248, 238, 226, 0.2);
+}
+
+.mobile-drawer-nav a:hover,
+.mobile-drawer-nav a.active,
+.mobile-drawer-nav .drawer-logout:hover {
+  color: #f8eee2;
+  background: rgba(248, 238, 226, 0.1);
+}
+
+.mobile-drawer-nav .drawer-logout {
+  margin-top: 0.5rem;
+  border-bottom: none;
+}
+
 @media (max-width: 768px) {
-  .nav-links {
+  .top-nav {
     display: none;
+  }
+
+  .mobile-header {
+    display: flex;
+  }
+
+  body {
+    padding-top: 3.5rem;
+    padding-bottom: 4rem;
   }
 
   .bottom-nav {
     display: flex;
   }
-
-  body {
-    padding-bottom: 4rem;
-  }
 }
 
 @media (min-width: 769px) {
+  .mobile-header {
+    display: none;
+  }
+
   .bottom-nav {
     display: none;
   }
-}
-
-.pantry-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: 0.75rem;
 }
 
 /* ========================================
@@ -1065,8 +1251,7 @@ button:disabled {
 .progress-main h1,
 .create-challenge-main h1,
 .badges-main h1,
-.recipe-book-main h1,
-.pantry-main h1 {
+.recipe-book-main h1 {
   text-align: left;
 }
 
@@ -1074,8 +1259,7 @@ button:disabled {
 .progress-main .subtitle,
 .create-challenge-main .subtitle,
 .badges-main .subtitle,
-.recipe-book-main .subtitle,
-.pantry-main .subtitle {
+.recipe-book-main .subtitle {
   text-align: left;
   margin-bottom: 1.5rem;
 }
@@ -1400,8 +1584,7 @@ button:disabled {
   .dashboard-main,
   .challenges-main,
   .progress-main,
-  .recipe-book-main,
-  .pantry-main {
+  .recipe-book-main {
     padding: 1rem;
   }
 
@@ -1494,6 +1677,15 @@ button:disabled {
   .landing-top-nav {
     padding-left: max(1.25rem, env(safe-area-inset-left));
     padding-right: max(1.25rem, env(safe-area-inset-right));
+  }
+
+  .mobile-header {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+
+  .mobile-drawer-panel {
+    padding-left: max(1rem, env(safe-area-inset-left));
   }
 
   .bottom-nav {

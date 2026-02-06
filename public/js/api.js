@@ -1,24 +1,24 @@
 // ca2 frontend - api base, token management, auth helpers
-// jwt is stored in localStorage and sent in api requests
+// jwt is stored in localStorage and sent in every request header so backend knows who is logged in
 
-// base path for api calls (empty = same server)
+// base path for api calls (empty = same server as the frontend)
 const API_BASE = '';
 
 // ========================================
 // token management
 // ========================================
 
-// returns stored jwt or null
+// returns the stored jwt from browser storage, or null if not logged in
 function getToken() {
   return localStorage.getItem('token');
 }
 
-// saves token after login
+// saves the jwt after successful login so we stay logged in
 function setToken(token) {
   localStorage.setItem('token', token);
 }
 
-// removes token on logout
+// removes the jwt when user logs out
 function clearToken() {
   localStorage.removeItem('token');
 }
@@ -27,7 +27,7 @@ function clearToken() {
 // api request helpers
 // ========================================
 
-// fetch options with json body and optional auth header
+// builds options for fetch: content-type json, and authorization header with jwt if we have one
 function authHeaders(body, method) {
   const headers = { 'Content-Type': 'application/json' };
   const token = getToken();
@@ -46,7 +46,7 @@ function authHeaders(body, method) {
 // protected page and auth helpers
 // ========================================
 
-// if no token, redirect to login and return false; else return true
+// call this on pages that require login; if no token, redirect to login and return false
 function requireAuth() {
   if (!getToken()) {
     window.location.href = 'login.html';
@@ -55,7 +55,7 @@ function requireAuth() {
   return true;
 }
 
-// extract user id from token
+// get the user id from the jwt payload (used when we need to send user_id to the api)
 function getUserIdFromToken() {
   const token = getToken();
   if (!token) return null;
@@ -63,10 +63,11 @@ function getUserIdFromToken() {
   return payload.userId;
 }
 
-// when logout button clicked, ask confirm then clear token and go to index
+// attach click handler to logout button(s): confirm then clear token and go to home page
+// works for both top nav and drawer logout buttons (class="logout-btn")
 function initLogout() {
-  const btn = document.getElementById('logout-btn');
-  if (btn) {
+  const btns = document.querySelectorAll('.logout-btn');
+  btns.forEach(function (btn) {
     btn.addEventListener('click', function () {
       const confirmLogout = confirm('Are you sure you want to log out?');
       if (confirmLogout === true) {
@@ -74,5 +75,5 @@ function initLogout() {
         window.location.href = 'index.html';
       }
     });
-  }
+  });
 }

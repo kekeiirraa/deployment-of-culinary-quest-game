@@ -1,6 +1,7 @@
 // ca2 frontend - kitchen quests page (list, category tabs, complete)
+// fetches all challenges from backend, filters by category on the client, and lets user complete a challenge
 
-// category keywords for client-side filter (until challenges have category_id)
+// category keywords for client-side filter (match words in challenge description)
 const CATEGORY_KEYWORDS = {
   prep: ['hydration', 'hydrate', 'water', 'stretch', 'morning', 'breakfast', 'prep', 'organize'],
   market: ['steps', 'walk', 'exercise', 'workout', 'run', 'market', 'ingredients', 'garden'],

@@ -1,7 +1,7 @@
 // ca2 frontend - client-side validation (instant feedback in ui)
-// no regex - simple string checks
+// no regex - simple string checks so code is easy to follow
 
-// validates email format: must contain @ and something after it
+// validates email format: must contain @ with something before and after it
 function isValidEmail(email) {
   const atIndex = email.indexOf('@');
   if (atIndex < 1) return false;
@@ -22,7 +22,7 @@ function isValidUsername(username) {
   return true;
 }
 
-// validates password strength and returns detailed result (no regex)
+// validates password: length 8+, and at least one upper, lower, number, special char; returns list of missing requirements
 function validatePassword(password) {
   const errors = [];
   if (password.length < 8) errors.push('at least 8 characters');
@@ -78,7 +78,7 @@ function updatePasswordStrength(password) {
   indicator.appendChild(label);
 }
 
-// real-time validation for register form
+// attach blur and input listeners to username, email, password so we show errors or strength as user types
 function initRegisterValidation() {
   const usernameInput = document.getElementById('username');
   const emailInput = document.getElementById('email');

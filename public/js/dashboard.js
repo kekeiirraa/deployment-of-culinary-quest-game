@@ -1,4 +1,5 @@
-// ca2 frontend - dashboard page (profile, leaderboard, recipe book, pantry quick view)
+// ca2 frontend - dashboard page (profile, leaderboard, recipe book)
+// uses fetch to get profile, leaderboard, and recipes from backend; shows friendly message if recipes fail to load
 
 // run when dashboard loads: redirect if no token, then load profile, leaderboard, recipes
 function initDashboard() {
@@ -14,11 +15,11 @@ function initDashboard() {
   initLogout();
 }
 
-// recipe unlock system: unlock recipes when user has enough points
+// check which recipes user can unlock (points >= required_points and not already unlocked), then call backend to unlock each
 function checkRecipeUnlocks(points, recipes, unlockedIds, userId, callback) {
   const unlocked = unlockedIds || [];
   const toUnlock = [];
-  for (const i = 0; i < recipes.length; i++) {
+  for (let i = 0; i < recipes.length; i++) {
     const r = recipes[i];
     if (points >= r.required_points && unlocked.indexOf(r.recipe_id) === -1) {
       toUnlock.push(r.recipe_id);
@@ -43,6 +44,7 @@ function checkRecipeUnlocks(points, recipes, unlockedIds, userId, callback) {
 }
 
 // load and display chef's recipe book (unlocked vs locked cards)
+// recipes unlock automatically when user has enough points; friendly message if load fails or list empty
 function loadRecipeBook() {
   const container = document.getElementById('recipe-cards-container');
   if (!container) return;
@@ -51,33 +53,52 @@ function loadRecipeBook() {
   const payload = JSON.parse(atob(token.split('.')[1]));
   const userId = payload.userId;
 
+  function showFriendlyMessage() {
+    container.innerHTML = '<p class="muted">Complete more activities to unlock recipes.</p>' +
+      '<p class="muted">Earn points by completing Kitchen Quests; recipes unlock automatically when you reach the required points.</p>' +
+      '<p><a href="challenges.html" class="btn-secondary">Go to Kitchen Quests</a></p>';
+  }
+
   // fetch profile for points, then user recipes for unlock status
   fetch(API_BASE + '/games/profile/' + userId, authHeaders())
     .then(function (res) { return res.json(); })
     .then(function (profile) {
       if (profile.error) {
-        container.innerHTML = '<p class="error">Failed to load profile</p>';
+        showFriendlyMessage();
         return;
       }
       return fetch(API_BASE + '/games/user/' + userId + '/recipes', authHeaders())
         .then(function (res) { return res.json(); })
         .then(function (recipesWithStatus) {
-          const unlockedIds = (recipesWithStatus || []).filter(function (r) { return r.unlocked; }).map(function (r) { return r.recipe_id; });
-          checkRecipeUnlocks(profile.points, recipesWithStatus || [], unlockedIds, userId, function () {
+          const list = recipesWithStatus || [];
+          if (list.length === 0) {
+            showFriendlyMessage();
+            return;
+          }
+          const unlockedIds = list.filter(function (r) { return r.unlocked; }).map(function (r) { return r.recipe_id; });
+          checkRecipeUnlocks(profile.points, list, unlockedIds, userId, function () {
             // re-fetch user recipes after unlocks so UI is up to date
             fetch(API_BASE + '/games/user/' + userId + '/recipes', authHeaders())
               .then(function (res) { return res.json(); })
-              .then(function (list) {
-                renderRecipeCards(list || [], container);
+              .then(function (updatedList) {
+                const arr = updatedList || [];
+                if (arr.length === 0) {
+                  showFriendlyMessage();
+                  return;
+                }
+                renderRecipeCards(arr, container);
               })
               .catch(function () {
-                renderRecipeCards(recipesWithStatus || [], container);
+                renderRecipeCards(list, container);
               });
           });
+        })
+        .catch(function () {
+          showFriendlyMessage();
         });
     })
     .catch(function () {
-      container.innerHTML = '<p class="error">Failed to load recipes</p>';
+      showFriendlyMessage();
     });
 }
 
@@ -85,7 +106,8 @@ function loadRecipeBook() {
 function renderRecipeCards(recipes, container) {
   container.innerHTML = '';
   if (!recipes.length) {
-    container.innerHTML = '<p class="muted">No recipes yet.</p>';
+    container.innerHTML = '<p class="muted">Complete more activities to unlock recipes. Earn points by completing Kitchen Quests.</p>' +
+      '<p><a href="challenges.html" class="btn-secondary">Go to Kitchen Quests</a></p>';
     return;
   }
   recipes.forEach(function (r) {
@@ -112,7 +134,7 @@ function renderRecipeCards(recipes, container) {
   });
 }
 
-// fetch user profile and display using dom
+// fetch user profile from backend and display username, rank, points, challenges completed in the profile card
 function loadUserProfile() {
   const profileContainer = document.getElementById('profile-container');
   if (!profileContainer) return;
@@ -161,7 +183,7 @@ function loadUserProfile() {
     });
 }
 
-// fetch and display leaderboard
+// fetch top 10 users by points from backend and display as a list
 function loadLeaderboard() {
   const leaderboardContainer = document.getElementById('leaderboard-container');
   if (!leaderboardContainer) return;
