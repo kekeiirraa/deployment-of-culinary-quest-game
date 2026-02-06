@@ -126,62 +126,47 @@ Culinary Adventure Quest transforms wellness activities into cooking challenges.
 
 ** USERS **
 
-* Create User 
-- POST /users
+* Create User : POST /users
 
-* Get All Users
-- GET /users
+* Get All Users : GET /users
 
-* Get User by ID
-- GET /users/:id
+* Get User by ID : GET /users/:id
   
-* Update User
-- PUT /users/:id
+* Update User : PUT /users/:id
 ---
 
 
 ** CHALLENGES **
 
-* Create Challenge
-- POST /challenges
+* Create Challenge : POST /challenges
 
-* Get All Challenges
-- GET /challenges
+* Get All Challenges : GET /challenges
   
-* Update Challenge
-- PUT /challenges/:id
+* Update Challenge : PUT /challenges/:id
 
-* Delete Challenge
-- DELETE /challenges/:id
+* Delete Challenge : DELETE /challenges/:id
 ---
 
 
 ** COMPLETIONS **
 
-* Complete a Challenge
-- POST /challenges/:challenge_id/completions
+* Complete a Challenge : POST /challenges/:challenge_id/completions
 
-* Get Completions by Challenge
-- GET /challenges/:challenge_id/completions
+* Get Completions by Challenge : GET /challenges/:challenge_id/completions
 ---
 
 
 ** GAMES **
 
-* Get User Profile
-- GET /games/profile/:userId
+* Get User Profile : GET /games/profile/:userId
 
-* Get Leaderboard
-- GET /games/leaderboard
+* Get Leaderboard : GET /games/leaderboard
 
-* Get User's Completed Challenges (CA2)
-- GET /games/user/:userId/challenges
+* Get User's Completed Challenges (CA2) : GET /games/user/:userId/challenges
 
-* Get User's Earned Badges (CA2)
-- GET /games/user/:userId/badges
+* Get User's Earned Badges (CA2) : GET /games/user/:userId/badges
 
-* Get All Available Badges (CA2)
-- GET /games/badges
+* Get All Available Badges (CA2) : GET /games/badges
 ---
 
 
