@@ -1,30 +1,21 @@
-// database connection pool configuration
-// creates a connection pool to manage multiple database connections efficiently
+const path = require('path');
+
+// Load .env from project root (same folder as package.json), regardless of cwd
+require('dotenv').config({ path: path.join(__dirname, '..', '..', '.env') });
 
 const mysql = require('mysql2');
 
-// create mysql connection pool with configuration
-// connection pool allows reuse of connections and better performance
-const pool = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: 'QWEasd123',
-    database: 'food',
-    connectionLimit: 10,        
-    waitForConnections: true,    
-    queueLimit: 0                // unlimited queue for connection requests
-});
+const setting = {
+    connectionLimit : 10, //set limit to 10 connection
+    host     : process.env.DB_HOST, //get host from environment variable
+    user     : process.env.DB_USER, //get user from environment variable
+    password : process.env.DB_PASSWORD, //get password from environment variable
+    database : process.env.DB_DATABASE, //get database from environment variable
+    port     : process.env.DB_PORT || 3306, //get port from environment variable
+    multipleStatements: true, //allow multiple sql statements
+    dateStrings: true //return date as string instead of Date object
+}
 
-// test database connection on startup
-// verifies that database connection is working properly
-pool.getConnection((err, connection) => {
-    if (err) {
-        console.error('Database connection failed: ', err);
-        return;
-    }
-    console.log('Connected to food database');
-    // release connection back to pool after testing
-    connection.release();
-});
+const pool = mysql.createPool(setting);
 
 module.exports = pool;
