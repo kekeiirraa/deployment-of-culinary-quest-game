@@ -1,0 +1,36 @@
+name: Post-deploy smoke test
+
+# render auto-deploys whenever main is updated. this waits for the new version
+# to come up and checks the live site actually works, so a broken deploy is
+# noticed here rather than by whoever opens the page next.
+on:
+  push:
+    branches: [main]
+  # lets you re-check the live site at any time from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    name: Check the live site
+    runs-on: ubuntu-latest
+
+    env:
+      BASE_URL: https://culinary-quest.onrender.com
+
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # give render time to build and start the new version before checking.
+      # the smoke test itself also retries, which covers a free instance that
+      # has gone to sleep and needs waking up.
+      - name: Wait for the deploy to roll out
+        run: sleep 180
+
+      - name: Run the smoke test
+        run: npm run smoke

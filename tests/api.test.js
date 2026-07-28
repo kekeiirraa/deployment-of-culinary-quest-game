@@ -4,6 +4,12 @@
 // log in, create a challenge, complete it, earn points/badges, unlock a recipe.
 //
 // run with: npm test   (needs DATABASE_URL in .env or the environment)
+//
+// setting BASE_URL runs the same tests against an already deployed server
+// instead of a local one, which is how a release is verified:
+//   BASE_URL=https://culinary-quest.onrender.com npm test
+// DATABASE_URL must still point at that deployment's database so the test data
+// can be cleaned up afterwards.
 
 const test = require('node:test');
 const assert = require('node:assert');
@@ -47,6 +53,11 @@ async function api(method, path, body) {
 }
 
 test.before(async () => {
+    if (process.env.BASE_URL) {
+        // testing a deployed server - it already has its own schema
+        baseUrl = process.env.BASE_URL.replace(/\/$/, '');
+        return;
+    }
     await migrate(); // make sure the schema exists before anything runs
     server = app.listen(0);
     await new Promise((resolve) => server.once('listening', resolve));

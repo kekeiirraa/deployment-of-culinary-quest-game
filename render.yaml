@@ -16,7 +16,6 @@ services:
     buildCommand: npm ci && npm run migrate
     startCommand: npm start
     autoDeploy: true
-    healthCheckPath: /api
     envVars:
       - key: NODE_VERSION
         value: "20"
