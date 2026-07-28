@@ -1,0 +1,33 @@
+# render blueprint - describes the deployment so it can be recreated from code
+# https://render.com/docs/blueprint-spec
+#
+# the database is hosted on neon (not render), so DATABASE_URL is set in the
+# render dashboard rather than here - secrets never belong in the repo.
+
+services:
+  - type: web
+    name: culinary-quest
+    runtime: node
+    plan: free
+    region: singapore
+    branch: main
+    # migrations run at build time, so a broken migration fails the deploy
+    # instead of taking the running site down
+    buildCommand: npm ci && npm run migrate
+    startCommand: npm start
+    autoDeploy: true
+    healthCheckPath: /api
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: NODE_ENV
+        value: production
+      # set these in the render dashboard (Environment tab)
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET_KEY
+        sync: false
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: JWT_ALGORITHM
+        value: HS256

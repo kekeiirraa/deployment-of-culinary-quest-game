@@ -79,10 +79,41 @@ Culinary Adventure Quest transforms wellness activities into cooking challenges.
 *** Setup ***
 
 1. **Dependencies**: `npm install`
-2. **Environment**: Copy `.env.example` to `.env` and set `JWT_SECRET_KEY`, `JWT_EXPIRES_IN`, `JWT_ALGORITHM` (required for auth).
-3. **Database**: MySQL with database and tables from CA1. If you already have the CA1 database, run the migration to add the password and email columns: `node src/configs/addPasswordColumn.js`. For a fresh setup, run `node src/configs/initTables.js` (schema includes `password_hash`, `email`, and unique constraints). For the recipe unlock system and challenge categories, run `node src/configs/addRecipeSystem.js` (adds ChallengeCategory, Ingredient, UserIngredient, RecipeIngredient, RecipeReview, and seeds recipes at 50/150/300 points).
-4. **Start server**: `npm run dev` or `npm start`. Server runs on port 3000.
-5. **Frontend**: Open `http://localhost:3000` in a browser. Use Register to create an account, then Log in. The API info is at `GET /api`.
+2. **Database**: create a free Postgres database at [neon.tech](https://neon.tech) and copy the **pooled** connection string.
+3. **Environment**: copy `.env.example` to `.env`, then set `DATABASE_URL` to that connection string and `JWT_SECRET_KEY` to a long random value. Generate one with:
+   `node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"`
+4. **Create the tables**: `npm run migrate`. This creates every table and seeds the reference data (chef ranks, badges, recipes, categories and three sample challenges). It is safe to run more than once.
+5. **Start server**: `npm run dev` or `npm start`. Server runs on port 3000.
+6. **Frontend**: Open `http://localhost:3000` in a browser. Use Register to create an account, then Log in. The API info is at `GET /api`.
+
+*** Testing ***
+
+- `npm test` – end to end tests. Starts the real server against the database in `DATABASE_URL` and walks the full journey: browse as a visitor, register, log in, create and complete a challenge, earn points and badges, unlock a recipe. It cleans up everything it creates.
+- `npm run smoke` – read-only checks against an already running server. Point it at a deployment with `BASE_URL=https://your-app.onrender.com npm run smoke`.
+
+*** Deployment ***
+
+The app runs on [Render](https://render.com) (free tier) with the database on [Neon](https://neon.tech) (free tier).
+
+| Piece | Where | Notes |
+|---|---|---|
+| Web server | Render web service | Built from `render.yaml`, auto-deploys on every push to `main` |
+| Database | Neon Postgres | Connection string lives in Render's Environment tab, never in the repo |
+| Tests | GitHub Actions (`.github/workflows/ci.yml`) | Every push and pull request |
+
+**How a change reaches production**
+
+1. Push to `main`.
+2. GitHub Actions creates a throwaway Neon branch (a copy of the real database), runs the migration and the full test suite against it, then deletes the branch. Production data is never touched.
+3. Render sees the push, runs `npm ci && npm run migrate`, and starts the new version. Because migrations run at build time, a broken migration fails the deploy instead of taking the live site down.
+
+**Environment variables to set in the Render dashboard**
+
+`DATABASE_URL`, `JWT_SECRET_KEY`, `JWT_EXPIRES_IN`, `JWT_ALGORITHM`.
+
+**GitHub Actions secrets** (Settings > Secrets and variables > Actions)
+
+`NEON_API_KEY` and `NEON_PROJECT_ID`. Without them the workflow still installs and syntax-checks the code, but skips the database tests and says so.
 
 *** Features ***
 
@@ -208,7 +239,7 @@ Players progress through ranks based on total points:
 
 * Notes
 
-- All database operations use callbacks (no Promises or async/await)
+- Models and controllers use callbacks throughout (no Promises or async/await). The database is Postgres; `src/services/db.js` keeps the callback API the rest of the code was written against and translates the SQL underneath, so the models stayed readable when the app moved off MySQL.
 - Challenges must be cooking-themed (validated automatically)
 - Points are automatically calculated and added when challenges are completed
 - Chef ranks are calculated dynamically based on user points

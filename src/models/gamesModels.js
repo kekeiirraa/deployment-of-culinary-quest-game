@@ -7,7 +7,7 @@ module.exports.getUserProfile = (userId, callback) => {
     const SQLSTATEMENT = `
     SELECT u.user_id, u.username, u.points, 
            COUNT(uc.completion_id) as completions
-    FROM User u
+    FROM Users u
     LEFT JOIN UserCompletion uc ON u.user_id = uc.user_id
     WHERE u.user_id = ?
     GROUP BY u.user_id;
@@ -23,7 +23,7 @@ module.exports.getUserProfile = (userId, callback) => {
 module.exports.getLeaderboard = (callback) => {
     const SQLSTATEMENT = `
     SELECT user_id, username, points 
-    FROM User 
+    FROM Users 
     ORDER BY points DESC 
     LIMIT 10;
     `;

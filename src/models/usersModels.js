@@ -5,7 +5,7 @@ const pool = require('../services/db');
 // takes user data object with username, email, password_hash, and callback
 module.exports.createUser = (data, callback) => {
     const SQLSTATEMENT = `
-    INSERT INTO User (username, email, password_hash, points, current_rank_id)
+    INSERT INTO Users (username, email, password_hash, points, current_rank_id)
     VALUES (?, ?, ?, 0, 1);
     `;
     const VALUES = [data.username, data.email, data.password_hash || null];
@@ -18,7 +18,7 @@ module.exports.createUser = (data, callback) => {
 module.exports.selectUserByUsernameOrEmailForAuth = (identifier, callback) => {
     const SQLSTATEMENT = `
     SELECT user_id, username, email, password_hash
-    FROM User
+    FROM Users
     WHERE username = ? OR email = ?;
     `;
     pool.query(SQLSTATEMENT, [identifier, identifier], callback);
@@ -28,7 +28,7 @@ module.exports.selectUserByUsernameOrEmailForAuth = (identifier, callback) => {
 // used for validation before creating users
 module.exports.checkEmailExists = (email, callback) => {
     const SQLSTATEMENT = `
-    SELECT user_id FROM User WHERE email = ?;
+    SELECT user_id FROM Users WHERE email = ?;
     `;
     pool.query(SQLSTATEMENT, [email], callback);
 };
@@ -38,7 +38,7 @@ module.exports.checkEmailExists = (email, callback) => {
 // takes username and callback function
 module.exports.checkUsernameExists = (username, callback) => {
     const SQLSTATEMENT = `
-    SELECT user_id FROM User WHERE username = ?;
+    SELECT user_id FROM Users WHERE username = ?;
     `;
     const VALUES = [username];
 
@@ -51,7 +51,7 @@ module.exports.checkUsernameExists = (username, callback) => {
 module.exports.selectAllUsers = (callback) => {
     const SQLSTATEMENT = `
     SELECT user_id, username, points
-    FROM User
+    FROM Users
     ORDER BY user_id;
     `;
 
@@ -63,7 +63,7 @@ module.exports.selectAllUsers = (callback) => {
 module.exports.selectUserById = (data, callback) => {
     const SQLSTATEMENT = `
     SELECT user_id, username, points
-    FROM User
+    FROM Users
     WHERE user_id = ?;
     `;
     const VALUES = [data.user_id];
@@ -75,7 +75,7 @@ module.exports.selectUserById = (data, callback) => {
 // takes user data object with user_id, username, and points, plus callback function
 module.exports.updateUser = (data, callback) => {
     const SQLSTATEMENT = `
-    UPDATE User 
+    UPDATE Users 
     SET username = ?, points = ?
     WHERE user_id = ?;
     `;
@@ -88,7 +88,7 @@ module.exports.updateUser = (data, callback) => {
 // takes user data object with user_id and rank_id, plus callback function
 module.exports.updateUserRank = (data, callback) => {
     const SQLSTATEMENT = `
-    UPDATE User 
+    UPDATE Users 
     SET current_rank_id = ?
     WHERE user_id = ?;
     `;

@@ -15,7 +15,7 @@ module.exports.getChallengePoints = (challengeId, callback) => {
 // takes user id and callback function
 module.exports.checkUserExists = (userId, callback) => {
     const SQLSTATEMENT = `
-    SELECT user_id FROM User WHERE user_id = ?;
+    SELECT user_id FROM Users WHERE user_id = ?;
     `;
     const VALUES = [userId];
     
@@ -39,7 +39,7 @@ module.exports.createCompletion = (data, callback) => {
 // takes points data object with points to add and user_id, plus callback function
 module.exports.updateUserPoints = (data, callback) => {
     const SQLSTATEMENT = `
-    UPDATE User SET points = points + ? WHERE user_id = ?;
+    UPDATE Users SET points = points + ? WHERE user_id = ?;
     `;
     const VALUES = [data.points, data.user_id];
     
@@ -67,7 +67,7 @@ module.exports.getCompletionsByChallenge = (challengeId, callback) => {
 module.exports.getUserInfo = (userId, callback) => {
     const SQLSTATEMENT = `
     SELECT u.user_id, u.username, u.points, cr.rank_name
-    FROM User u
+    FROM Users u
     LEFT JOIN ChefRanks cr ON u.current_rank_id = cr.rank_id
     WHERE u.user_id = ?;
     `;

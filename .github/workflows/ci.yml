@@ -1,0 +1,88 @@
+name: CI
+
+# runs on every push and pull request so broken code is caught before it is
+# merged. deployment itself is handled by render's auto-deploy on main.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: Lint and test
+    runs-on: ubuntu-latest
+
+    env:
+      NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
+      NEON_PROJECT_ID: ${{ secrets.NEON_PROJECT_ID }}
+      # tests only need a secret that exists, not the production one
+      JWT_SECRET_KEY: ci-test-secret-not-used-in-production
+      JWT_EXPIRES_IN: 7d
+      JWT_ALGORITHM: HS256
+
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check every file parses
+        run: |
+          for file in $(git ls-files '*.js'); do
+            node --check "$file"
+          done
+
+      - name: Warn if database secrets are missing
+        if: env.NEON_API_KEY == '' || env.NEON_PROJECT_ID == ''
+        run: |
+          echo "::warning::NEON_API_KEY / NEON_PROJECT_ID are not set, so the"
+          echo "::warning::database tests were skipped. Add them under"
+          echo "::warning::Settings > Secrets and variables > Actions."
+
+      # every run gets its own copy of the database, branched from production.
+      # the tests get real data to work against and production is never touched.
+      - name: Create a Neon branch for this run
+        id: neon_branch
+        if: env.NEON_API_KEY != '' && env.NEON_PROJECT_ID != ''
+        run: |
+          branch="ci-${{ github.run_id }}-${{ github.run_attempt }}"
+          npx --yes neonctl branches create \
+            --project-id "$NEON_PROJECT_ID" \
+            --name "$branch" \
+            --api-key "$NEON_API_KEY" \
+            --output json > /dev/null
+          url=$(npx --yes neonctl connection-string "$branch" \
+            --project-id "$NEON_PROJECT_ID" \
+            --api-key "$NEON_API_KEY" \
+            --pooled)
+          echo "::add-mask::$url"
+          echo "branch=$branch" >> "$GITHUB_OUTPUT"
+          echo "database_url=$url" >> "$GITHUB_OUTPUT"
+
+      - name: Run migrations
+        if: steps.neon_branch.outcome == 'success'
+        env:
+          DATABASE_URL: ${{ steps.neon_branch.outputs.database_url }}
+        run: npm run migrate
+
+      - name: Run the end to end tests
+        if: steps.neon_branch.outcome == 'success'
+        env:
+          DATABASE_URL: ${{ steps.neon_branch.outputs.database_url }}
+        run: npm test
+
+      # always clean up, even when the tests fail, so branches do not pile up
+      - name: Delete the Neon branch
+        if: always() && steps.neon_branch.outputs.branch != ''
+        run: |
+          npx --yes neonctl branches delete "${{ steps.neon_branch.outputs.branch }}" \
+            --project-id "$NEON_PROJECT_ID" \
+            --api-key "$NEON_API_KEY" || true
